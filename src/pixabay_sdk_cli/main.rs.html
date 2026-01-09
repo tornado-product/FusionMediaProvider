@@ -133,12 +133,12 @@
 <a href=#133 id=133 data-nosnippet>133</a>    </span>dotenv().ok();
 <a href=#134 id=134 data-nosnippet>134</a>
 <a href=#135 id=135 data-nosnippet>135</a>    <span class="comment">// 从环境变量获取 API 密钥
-<a href=#136 id=136 data-nosnippet>136</a>    </span><span class="kw">let </span>api_key = env::var(<span class="string">"PIXABAY_API_KEY"</span>)
-<a href=#137 id=137 data-nosnippet>137</a>        .expect(<span class="string">"必须在环境变量或 .env 文件中设置 PIXABAY_API_KEY"</span>);
+<a href=#136 id=136 data-nosnippet>136</a>    </span><span class="kw">let </span>api_key =
+<a href=#137 id=137 data-nosnippet>137</a>        env::var(<span class="string">"PIXABAY_API_KEY"</span>).expect(<span class="string">"必须在环境变量或 .env 文件中设置 PIXABAY_API_KEY"</span>);
 <a href=#138 id=138 data-nosnippet>138</a>
 <a href=#139 id=139 data-nosnippet>139</a>    <span class="comment">// 创建 Pixabay 客户端
 <a href=#140 id=140 data-nosnippet>140</a>    </span><span class="kw">let </span>client = Pixabay::new(api_key);
-<a href=#141 id=141 data-nosnippet>141</a>    
+<a href=#141 id=141 data-nosnippet>141</a>
 <a href=#142 id=142 data-nosnippet>142</a>    <span class="comment">// 解析命令行参数
 <a href=#143 id=143 data-nosnippet>143</a>    </span><span class="kw">let </span>cli = Cli::parse();
 <a href=#144 id=144 data-nosnippet>144</a>
@@ -293,10 +293,10 @@
 <a href=#293 id=293 data-nosnippet>293</a>            </span><span class="kw">let </span>response = client.search_videos_advanced(params).<span class="kw">await</span><span class="question-mark">?</span>;
 <a href=#294 id=294 data-nosnippet>294</a>            <span class="macro">println!</span>(<span class="string">"hits lent:{}"</span>, response.hits.len());
 <a href=#295 id=295 data-nosnippet>295</a>            <span class="kw">let </span>first_video = response.hits.first();
-<a href=#296 id=296 data-nosnippet>296</a>            <span class="kw">if let </span><span class="prelude-val">Some</span>(video) = first_video{
+<a href=#296 id=296 data-nosnippet>296</a>            <span class="kw">if let </span><span class="prelude-val">Some</span>(video) = first_video {
 <a href=#297 id=297 data-nosnippet>297</a>                <span class="macro">println!</span>(<span class="string">"video1 url:{}"</span>, video.page_url);
 <a href=#298 id=298 data-nosnippet>298</a>                <span class="kw">let </span>video_result = client.get_video(video.id).<span class="kw">await</span>;
-<a href=#299 id=299 data-nosnippet>299</a>                <span class="kw">if let </span><span class="prelude-val">Ok</span>(video) = video_result{
+<a href=#299 id=299 data-nosnippet>299</a>                <span class="kw">if let </span><span class="prelude-val">Ok</span>(video) = video_result {
 <a href=#300 id=300 data-nosnippet>300</a>                    <span class="macro">println!</span>(<span class="string">"videoUrl:{}"</span>, video.page_url);
 <a href=#301 id=301 data-nosnippet>301</a>                }
 <a href=#302 id=302 data-nosnippet>302</a>            }

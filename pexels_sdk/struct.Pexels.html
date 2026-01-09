@@ -25,7 +25,7 @@
     <span class="kw">let </span>params = SearchParams::new().page(<span class="number">1</span>).per_page(<span class="number">15</span>);
     <span class="kw">let </span>response = client.search_photos(<span class="string">"mountains"</span>, <span class="kw-2">&amp;</span>params).<span class="kw">await</span>.expect(<span class="string">"Failed to get photos"</span>);
     <span class="macro">println!</span>(<span class="string">"{:?}"</span>, response);
-}</code></pre></div></div></details><h2 id="implementations" class="section-header">Implementations<a href="#implementations" class="anchor">§</a></h2><div id="implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Pexels" class="impl"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#573-883">Source</a><a href="#impl-Pexels" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Pexels.html" title="struct pexels_sdk::Pexels">Pexels</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.new" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#592-594">Source</a><h4 class="code-header">pub fn <a href="#method.new" class="fn">new</a>(api_key: <a class="struct" href="https://doc.rust-lang.org/1.92.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>) -&gt; Self</h4></section></summary><div class="docblock"><p>创建新的 Pexels 客户端。</p>
+}</code></pre></div></div></details><h2 id="implementations" class="section-header">Implementations<a href="#implementations" class="anchor">§</a></h2><div id="implementations-list"><details class="toggle implementors-toggle" open><summary><section id="impl-Pexels" class="impl"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#573-896">Source</a><a href="#impl-Pexels" class="anchor">§</a><h3 class="code-header">impl <a class="struct" href="struct.Pexels.html" title="struct pexels_sdk::Pexels">Pexels</a></h3></section></summary><div class="impl-items"><details class="toggle method-toggle" open><summary><section id="method.new" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#592-597">Source</a><h4 class="code-header">pub fn <a href="#method.new" class="fn">new</a>(api_key: <a class="struct" href="https://doc.rust-lang.org/1.92.0/alloc/string/struct.String.html" title="struct alloc::string::String">String</a>) -&gt; Self</h4></section></summary><div class="docblock"><p>创建新的 Pexels 客户端。</p>
 <h5 id="参数"><a class="doc-anchor" href="#参数">§</a>参数</h5>
 <ul>
 <li><code>api_key</code> - Pexels API 的 API 密钥。</li>
@@ -40,7 +40,7 @@
     dotenv().ok();
     <span class="kw">let </span>api_key = env::var(<span class="string">"PEXELS_API_KEY"</span>).expect(<span class="string">"PEXELS_API_KEY not set"</span>);
     <span class="kw">let </span>client = PexelsClient::new(api_key);
-}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.search_photos" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#638-643">Source</a><h4 class="code-header">pub async fn <a href="#method.search_photos" class="fn">search_photos</a>(
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.search_photos" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#641-646">Source</a><h4 class="code-header">pub async fn <a href="#method.search_photos" class="fn">search_photos</a>(
     &amp;self,
     builder: <a class="struct" href="struct.SearchBuilder.html" title="struct pexels_sdk::SearchBuilder">SearchBuilder</a>&lt;'_&gt;,
 ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.92.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.PhotosResponse.html" title="struct pexels_sdk::PhotosResponse">PhotosResponse</a>, <a class="enum" href="enum.PexelsError.html" title="enum pexels_sdk::PexelsError">PexelsError</a>&gt;</h4></section></summary><div class="docblock"><p>根据搜索条件从 Pexels API 检索照片列表。</p>
@@ -64,7 +64,7 @@
     <span class="kw">let </span>params = SearchParams::new().page(<span class="number">1</span>).per_page(<span class="number">15</span>);
     <span class="kw">let </span>response = client.search_photos(<span class="string">"mountains"</span>, <span class="kw-2">&amp;</span>params).<span class="kw">await</span>.expect(<span class="string">"Failed to get photos"</span>);
     <span class="macro">println!</span>(<span class="string">"{:?}"</span>, response);
-}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.get_photo" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#668-670">Source</a><h4 class="code-header">pub async fn <a href="#method.get_photo" class="fn">get_photo</a>(&amp;self, id: <a class="primitive" href="https://doc.rust-lang.org/1.92.0/std/primitive.usize.html">usize</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.92.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.Photo.html" title="struct pexels_sdk::Photo">Photo</a>, <a class="enum" href="enum.PexelsError.html" title="enum pexels_sdk::PexelsError">PexelsError</a>&gt;</h4></section></summary><div class="docblock"><p>根据 ID 从 Pexels API 检索照片。</p>
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.get_photo" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#671-673">Source</a><h4 class="code-header">pub async fn <a href="#method.get_photo" class="fn">get_photo</a>(&amp;self, id: <a class="primitive" href="https://doc.rust-lang.org/1.92.0/std/primitive.usize.html">usize</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.92.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.Photo.html" title="struct pexels_sdk::Photo">Photo</a>, <a class="enum" href="enum.PexelsError.html" title="enum pexels_sdk::PexelsError">PexelsError</a>&gt;</h4></section></summary><div class="docblock"><p>根据 ID 从 Pexels API 检索照片。</p>
 <h5 id="参数-2"><a class="doc-anchor" href="#参数-2">§</a>参数</h5>
 <ul>
 <li><code>id</code> - 要检索的照片的 ID。</li>
@@ -83,7 +83,7 @@
     <span class="kw">let </span>client = PexelsClient::new(api_key);
     <span class="kw">let </span>response = client.get_photo(<span class="number">10967</span>).<span class="kw">await</span>.expect(<span class="string">"Failed to get photo"</span>);
     <span class="macro">println!</span>(<span class="string">"{:?}"</span>, response);
-}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.curated_photo" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#696-701">Source</a><h4 class="code-header">pub async fn <a href="#method.curated_photo" class="fn">curated_photo</a>(
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.curated_photo" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#699-704">Source</a><h4 class="code-header">pub async fn <a href="#method.curated_photo" class="fn">curated_photo</a>(
     &amp;self,
     builder: <a class="struct" href="struct.CuratedBuilder.html" title="struct pexels_sdk::CuratedBuilder">CuratedBuilder</a>,
 ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.92.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.PhotosResponse.html" title="struct pexels_sdk::PhotosResponse">PhotosResponse</a>, <a class="enum" href="enum.PexelsError.html" title="enum pexels_sdk::PexelsError">PexelsError</a>&gt;</h4></section></summary><div class="docblock"><p>从 Pexels API 检索随机照片。</p>
@@ -106,7 +106,7 @@
     <span class="kw">let </span>client = Pexels::new(api_key);
     <span class="kw">let </span>response = client.curated_photo(CuratedBuilder::new().per_page(<span class="number">1</span>).page(<span class="number">1</span>)).<span class="kw">await</span>.expect(<span class="string">"Failed to get random photo"</span>);
     <span class="macro">println!</span>(<span class="string">"{:?}"</span>, response);
-}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.search_videos" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#727-732">Source</a><h4 class="code-header">pub async fn <a href="#method.search_videos" class="fn">search_videos</a>(
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.search_videos" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#730-735">Source</a><h4 class="code-header">pub async fn <a href="#method.search_videos" class="fn">search_videos</a>(
     &amp;self,
     builder: <a class="struct" href="struct.VideoSearchBuilder.html" title="struct pexels_sdk::VideoSearchBuilder">VideoSearchBuilder</a>&lt;'_&gt;,
 ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.92.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.VideoResponse.html" title="struct pexels_sdk::VideoResponse">VideoResponse</a>, <a class="enum" href="enum.PexelsError.html" title="enum pexels_sdk::PexelsError">PexelsError</a>&gt;</h4></section></summary><div class="docblock"><p>Retrieves a list of videos from the Pexels API based on the search criteria.</p>
@@ -129,7 +129,7 @@
     <span class="kw">let </span>client = Pexels::new(api_key);
     <span class="kw">let </span>response = client.search_videos(VideoSearchBuilder::new().query(<span class="string">"nature"</span>).per_page(<span class="number">15</span>).page(<span class="number">1</span>)).<span class="kw">await</span>.expect(<span class="string">"Failed to get videos"</span>);
     <span class="macro">println!</span>(<span class="string">"{:?}"</span>, response);
-}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.popular_videos" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#758-763">Source</a><h4 class="code-header">pub async fn <a href="#method.popular_videos" class="fn">popular_videos</a>(
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.popular_videos" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#761-766">Source</a><h4 class="code-header">pub async fn <a href="#method.popular_videos" class="fn">popular_videos</a>(
     &amp;self,
     builder: <a class="struct" href="struct.PopularBuilder.html" title="struct pexels_sdk::PopularBuilder">PopularBuilder</a>,
 ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.92.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.VideoResponse.html" title="struct pexels_sdk::VideoResponse">VideoResponse</a>, <a class="enum" href="enum.PexelsError.html" title="enum pexels_sdk::PexelsError">PexelsError</a>&gt;</h4></section></summary><div class="docblock"><p>Retrieves a list of popular videos from the Pexels API.</p>
@@ -152,7 +152,7 @@
     <span class="kw">let </span>client = Pexels::new(api_key);
     <span class="kw">let </span>response = client.popular_videos(PopularBuilder::new().per_page(<span class="number">15</span>).page(<span class="number">1</span>)).<span class="kw">await</span>.expect(<span class="string">"Failed to get popular videos"</span>);
     <span class="macro">println!</span>(<span class="string">"{:?}"</span>, response);
-}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.get_video" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#788-790">Source</a><h4 class="code-header">pub async fn <a href="#method.get_video" class="fn">get_video</a>(&amp;self, id: <a class="primitive" href="https://doc.rust-lang.org/1.92.0/std/primitive.usize.html">usize</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.92.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.Video.html" title="struct pexels_sdk::Video">Video</a>, <a class="enum" href="enum.PexelsError.html" title="enum pexels_sdk::PexelsError">PexelsError</a>&gt;</h4></section></summary><div class="docblock"><p>Retrieves a video by its ID from the Pexels API.</p>
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.get_video" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#791-793">Source</a><h4 class="code-header">pub async fn <a href="#method.get_video" class="fn">get_video</a>(&amp;self, id: <a class="primitive" href="https://doc.rust-lang.org/1.92.0/std/primitive.usize.html">usize</a>) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.92.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.Video.html" title="struct pexels_sdk::Video">Video</a>, <a class="enum" href="enum.PexelsError.html" title="enum pexels_sdk::PexelsError">PexelsError</a>&gt;</h4></section></summary><div class="docblock"><p>Retrieves a video by its ID from the Pexels API.</p>
 <h5 id="arguments-2"><a class="doc-anchor" href="#arguments-2">§</a>Arguments</h5>
 <ul>
 <li><code>id</code> - The ID of the video to retrieve.</li>
@@ -171,7 +171,7 @@
     <span class="kw">let </span>client = Pexels::new(api_key);
     <span class="kw">let </span>response = client.get_video(<span class="number">25460961</span>).<span class="kw">await</span>.expect(<span class="string">"Failed to get video"</span>);
     <span class="macro">println!</span>(<span class="string">"{:?}"</span>, response);
-}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.search_collections" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#816-822">Source</a><h4 class="code-header">pub async fn <a href="#method.search_collections" class="fn">search_collections</a>(
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.search_collections" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#819-830">Source</a><h4 class="code-header">pub async fn <a href="#method.search_collections" class="fn">search_collections</a>(
     &amp;self,
     per_page: <a class="primitive" href="https://doc.rust-lang.org/1.92.0/std/primitive.usize.html">usize</a>,
     page: <a class="primitive" href="https://doc.rust-lang.org/1.92.0/std/primitive.usize.html">usize</a>,
@@ -195,7 +195,7 @@
     <span class="kw">let </span>client = Pexels::new(api_key);
     <span class="kw">let </span>response = client.search_collections(<span class="number">15</span>, <span class="number">1</span>).<span class="kw">await</span>.expect(<span class="string">"Failed to get collections"</span>);
     <span class="macro">println!</span>(<span class="string">"{:?}"</span>, response);
-}      </code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.featured_collections" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#848-854">Source</a><h4 class="code-header">pub async fn <a href="#method.featured_collections" class="fn">featured_collections</a>(
+}      </code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.featured_collections" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#856-867">Source</a><h4 class="code-header">pub async fn <a href="#method.featured_collections" class="fn">featured_collections</a>(
     &amp;self,
     per_page: <a class="primitive" href="https://doc.rust-lang.org/1.92.0/std/primitive.usize.html">usize</a>,
     page: <a class="primitive" href="https://doc.rust-lang.org/1.92.0/std/primitive.usize.html">usize</a>,
@@ -219,7 +219,7 @@
     <span class="kw">let </span>client = Pexels::new(api_key);
     <span class="kw">let </span>response = client.featured_collections(<span class="number">15</span>, <span class="number">1</span>).<span class="kw">await</span>.expect(<span class="string">"Failed to get collections"</span>);
     <span class="macro">println!</span>(<span class="string">"{:?}"</span>, response);
-}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.search_media" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#880-882">Source</a><h4 class="code-header">pub async fn <a href="#method.search_media" class="fn">search_media</a>(
+}</code></pre></div></div></details><details class="toggle method-toggle" open><summary><section id="method.search_media" class="method"><a class="src rightside" href="../src/pexels_sdk/lib.rs.html#893-895">Source</a><h4 class="code-header">pub async fn <a href="#method.search_media" class="fn">search_media</a>(
     &amp;self,
     builder: <a class="struct" href="struct.MediaBuilder.html" title="struct pexels_sdk::MediaBuilder">MediaBuilder</a>,
 ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.92.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="struct" href="struct.MediaResponse.html" title="struct pexels_sdk::MediaResponse">MediaResponse</a>, <a class="enum" href="enum.PexelsError.html" title="enum pexels_sdk::PexelsError">PexelsError</a>&gt;</h4></section></summary><div class="docblock"><p>Retrieves all media (photos and videos) within a single collection.</p>
