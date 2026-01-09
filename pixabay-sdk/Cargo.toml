@@ -1,0 +1,25 @@
+[package]
+name = "pixabay-sdk"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+homepage.workspace = true
+documentation = "https://docs.rs/pixabay-sdk"
+description = "A Rust wrapper for Pixabay API"
+keywords = ["pixabay", "api", "image", "video", "search"]
+categories = ["api-bindings", "web-programming"]
+
+[dependencies]
+reqwest = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+thiserror = { workspace = true }
+url = { workspace = true }
+dotenvy = "0.15.7"
+
+[lib]
+name = "pixabay_sdk"
+path = "src/lib.rs"

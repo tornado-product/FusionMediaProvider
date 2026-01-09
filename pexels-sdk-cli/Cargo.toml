@@ -1,0 +1,26 @@
+[package]
+name = "pexels-sdk-cli"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license.workspace = true
+description.workspace = true
+homepage.workspace = true
+repository.workspace = true
+documentation = "https://docs.rs/pexels-sdk-cli"
+keywords.workspace = true
+categories = ["command-line-utilities", "development-tools", "asynchronous", "network-programming"]
+readme = "README.md"
+
+[dependencies]
+pexels-sdk = { path = "../pexels-sdk" }
+clap.workspace = true
+dotenvy.workspace = true
+tokio.workspace = true
+[dev-dependencies]
+tokio.workspace = true
+
+[[bin]]
+name = "pexels-sdk-cli"
+path = "src/main.rs"

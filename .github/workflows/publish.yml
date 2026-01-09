@@ -1,0 +1,87 @@
+name: Publish to crates.io
+
+on:
+  workflow_dispatch:  # 允许手动触发
+    inputs:
+      package:
+        description: 'Package to publish (pixabay-sdk, pexels-sdk, fusion-media-provider, or all)'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - pixabay-sdk
+          - pexels-sdk
+          - fusion-media-provider
+      version:
+        description: 'Version to publish (e.g., 1.0.1)'
+        required: true
+        type: string
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  publish:
+    name: Publish ${{ github.event.inputs.package }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    strategy:
+      matrix:
+        include:
+          - package: pixabay-sdk
+            path: pixabay-sdk
+          - package: pexels-sdk
+            path: pexels-sdk
+          - package: fusion-media-provider
+            path: fusion-media-provider
+
+    # 如果选择了特定包，只运行该包；如果选择 all，运行所有包
+    if: |
+      github.event.inputs.package == 'all' || 
+      github.event.inputs.package == matrix.package
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+      - name: Update version
+        if: github.event.inputs.version != ''
+        run: |
+          cd ${{ matrix.path }}
+          # 更新 Cargo.toml 中的版本
+          sed -i "s/^version = .*/version = \"${{ github.event.inputs.version }}\"/" Cargo.toml
+
+      - name: Verify package
+        run: |
+          cd ${{ matrix.path }}
+          cargo package --allow-dirty
+
+      - name: Publish to crates.io
+        run: |
+          cd ${{ matrix.path }}
+          cargo publish --token ${{ secrets.CRATES_IO_TOKEN }} --no-verify
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
+
+      - name: Wait for crates.io index
+        run: |
+          echo "Waiting for crates.io to update index..."
+          sleep 10
