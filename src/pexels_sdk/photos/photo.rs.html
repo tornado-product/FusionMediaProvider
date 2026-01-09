@@ -76,14 +76,15 @@
 <a href=#76 id=76 data-nosnippet>76</a>    }
 <a href=#77 id=77 data-nosnippet>77</a>
 <a href=#78 id=78 data-nosnippet>78</a>    <span class="attr">#[tokio::test]
-<a href=#79 id=79 data-nosnippet>79</a>    </span><span class="kw">async fn </span>test_fetch_photo() {
-<a href=#80 id=80 data-nosnippet>80</a>        dotenv().ok();
-<a href=#81 id=81 data-nosnippet>81</a>        <span class="kw">let </span>api_key = env::var(<span class="string">"PEXELS_API_KEY"</span>).expect(<span class="string">"PEXELS_API_KEY not set"</span>);
-<a href=#82 id=82 data-nosnippet>82</a>        <span class="kw">let </span>client = Pexels::new(api_key);
-<a href=#83 id=83 data-nosnippet>83</a>
-<a href=#84 id=84 data-nosnippet>84</a>        <span class="kw">let </span>get_photo = FetchPhoto::builder().id(<span class="number">10967</span>).build();
-<a href=#85 id=85 data-nosnippet>85</a>        <span class="kw">let </span>result = get_photo.fetch(<span class="kw-2">&amp;</span>client).<span class="kw">await</span>;
-<a href=#86 id=86 data-nosnippet>86</a>        <span class="macro">println!</span>(<span class="string">"get_photo result: {result:?}"</span>);
-<a href=#87 id=87 data-nosnippet>87</a>        <span class="macro">assert!</span>(result.is_ok());
-<a href=#88 id=88 data-nosnippet>88</a>    }
-<a href=#89 id=89 data-nosnippet>89</a>}</code></pre></div></section></main></body></html>
+<a href=#79 id=79 data-nosnippet>79</a>    #[ignore]
+<a href=#80 id=80 data-nosnippet>80</a>    </span><span class="kw">async fn </span>test_fetch_photo() {
+<a href=#81 id=81 data-nosnippet>81</a>        dotenv().ok();
+<a href=#82 id=82 data-nosnippet>82</a>        <span class="kw">let </span>api_key = env::var(<span class="string">"PEXELS_API_KEY"</span>).expect(<span class="string">"PEXELS_API_KEY not set"</span>);
+<a href=#83 id=83 data-nosnippet>83</a>        <span class="kw">let </span>client = Pexels::new(api_key);
+<a href=#84 id=84 data-nosnippet>84</a>
+<a href=#85 id=85 data-nosnippet>85</a>        <span class="kw">let </span>get_photo = FetchPhoto::builder().id(<span class="number">10967</span>).build();
+<a href=#86 id=86 data-nosnippet>86</a>        <span class="kw">let </span>result = get_photo.fetch(<span class="kw-2">&amp;</span>client).<span class="kw">await</span>;
+<a href=#87 id=87 data-nosnippet>87</a>        <span class="macro">println!</span>(<span class="string">"get_photo result: {result:?}"</span>);
+<a href=#88 id=88 data-nosnippet>88</a>        <span class="macro">assert!</span>(result.is_ok());
+<a href=#89 id=89 data-nosnippet>89</a>    }
+<a href=#90 id=90 data-nosnippet>90</a>}</code></pre></div></section></main></body></html>
