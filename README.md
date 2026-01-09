@@ -28,6 +28,8 @@ version = "1.0.1"
 pixabay-sdk = { path = "../pixabay-sdk", version = "1.0.1" }
 pexels-sdk = { path = "../pexels-sdk", version = "1.0.1", optional = true }
 
+#### CHANGELOG.md增加对应版本的说明
+
 ### 组件说明
 
 #### 1. **pixabay-sdk** - Pixabay API 客户端
