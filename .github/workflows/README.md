@@ -213,6 +213,13 @@ on:
 1. **CRATES_IO_TOKEN** (必需)
    - 获取方式: [crates.io](https://crates.io) → Account Settings → API Tokens
    - 用于发布包到 crates.io
+   - 点击仓库顶部的 Settings（设置）标签
+   - 在左侧边栏找到 Secrets and variables → 点击 Actions
+   - 在 Repository secrets 部分，点击 New repository secret 按钮
+   - 填写信息：
+      Name: CRATES_IO_TOKEN（必须与 workflow 中的名称完全一致）
+      Secret: 粘贴你的 crates.io API token
+      点击 Add secret
 
 2. **GITHUB_TOKEN** (自动)
    - GitHub 自动提供，无需手动配置
