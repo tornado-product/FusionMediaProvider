@@ -6,7 +6,7 @@ use std::env;
 
 fn get_test_client() -> Option<Pexels> {
     dotenv().ok();
-    env::var("PEXELS_API_KEY").ok().map(|key| Pexels::new(key))
+    env::var("PEXELS_API_KEY").ok().map(Pexels::new)
 }
 
 #[tokio::test]
@@ -25,7 +25,7 @@ async fn test_search_photos() {
 
     let response = result.unwrap();
     assert!(response.total_results > 0);
-    assert!(response.photos.len() > 0);
+    assert!(!response.photos.is_empty());
     println!("Found {} photos", response.photos.len());
 }
 
@@ -100,7 +100,7 @@ async fn test_curated_photos() {
     assert!(result.is_ok());
 
     let response = result.unwrap();
-    assert!(response.photos.len() > 0);
+    assert!(!response.photos.is_empty());
     println!("Curated photos: {}", response.photos.len());
 }
 
@@ -115,7 +115,7 @@ async fn test_popular_videos() {
     assert!(result.is_ok());
 
     let response = result.unwrap();
-    assert!(response.videos.len() > 0);
+    assert!(!response.videos.is_empty());
     println!("Popular videos: {}", response.videos.len());
 }
 
@@ -134,8 +134,8 @@ async fn test_search_with_different_pages() {
     assert!(result.is_ok(), "Page 2 should return valid results");
     let page2 = result.unwrap();
 
-    assert!(page1.photos.len() > 0);
-    assert!(page2.photos.len() > 0);
+    assert!(!page1.photos.is_empty());
+    assert!(!page2.photos.is_empty());
 
     if let (Some(item1), Some(item2)) = (page1.photos.first(), page2.photos.first()) {
         assert_ne!(

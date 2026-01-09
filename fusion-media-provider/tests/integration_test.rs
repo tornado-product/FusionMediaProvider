@@ -13,7 +13,7 @@ fn get_test_client() -> Option<Pixabay> {
     dotenv().ok();
     env::var("PIXABAY_API_KEY")
         .ok()
-        .map(|key| Pixabay::new(key))
+        .map(Pixabay::new)
 }
 
 #[tokio::test]
@@ -28,7 +28,7 @@ async fn test_simple_image_search() {
     let response = result.unwrap();
     assert!(response.total > 0);
     assert!(response.total_hits > 0);
-    assert!(response.hits.len() > 0);
+    assert!(!response.hits.is_empty());
     println!("{:?}", response.hits);
     assert!(response.hits.len() <= 5);
 }
@@ -90,7 +90,7 @@ async fn test_simple_video_search() {
     let response = result.unwrap();
     assert!(response.total > 0);
     assert!(response.total_hits > 0);
-    assert!(response.hits.len() > 0);
+    assert!(!response.hits.is_empty());
     assert!(response.hits.len() <= 5);
 }
 
@@ -194,7 +194,7 @@ async fn test_editors_choice_filter() {
 
     // All results should be Editor's Choice (though API doesn't return this field)
     let response = result.unwrap();
-    assert!(response.hits.len() > 0);
+    assert!(!response.hits.is_empty());
 }
 
 #[tokio::test]
@@ -237,7 +237,7 @@ async fn test_response_structure() {
     assert!(result.is_ok());
 
     let response = result.unwrap();
-    assert!(response.hits.len() > 0);
+    assert!(!response.hits.is_empty());
 
     let image = &response.hits[0];
 
@@ -271,7 +271,7 @@ fn test_enums_to_string() {
 #[tokio::test]
 async fn test_media_downloader_search_images() {
     use dotenvy::dotenv;
-    use poly_media_provider::{MediaDownloader, MediaType, PixabayProvider, SearchParams};
+    use fusion_media_provider::{MediaDownloader, MediaType, PixabayProvider, SearchParams};
     use std::env;
     use std::sync::Arc;
 
@@ -288,7 +288,7 @@ async fn test_media_downloader_search_images() {
     let response = result.unwrap();
 
     assert!(response.total > 0, "Should have results");
-    assert!(response.items.len() > 0, "Should return items");
+    assert!(!response.items.is_empty(), "Should return items");
     println!(
         "Found {} images from {} provider(s)",
         response.total_hits,
@@ -304,7 +304,7 @@ async fn test_media_downloader_search_images() {
 #[ignore]
 async fn test_media_downloader_search_videos() {
     use dotenvy::dotenv;
-    use poly_media_provider::{MediaDownloader, MediaType, PixabayProvider, SearchParams};
+    use fusion_media_provider::{MediaDownloader, MediaType, PixabayProvider, SearchParams};
     use std::env;
     use std::sync::Arc;
 
@@ -332,7 +332,7 @@ async fn test_media_downloader_search_videos() {
 #[ignore]
 async fn test_media_downloader_pagination() {
     use dotenvy::dotenv;
-    use poly_media_provider::{MediaDownloader, MediaType, PixabayProvider, SearchParams};
+    use fusion_media_provider::{MediaDownloader, MediaType, PixabayProvider, SearchParams};
     use std::env;
     use std::sync::Arc;
 
@@ -377,7 +377,7 @@ async fn test_media_downloader_pagination() {
 #[ignore]
 async fn test_media_downloader_multiple_providers() {
     use dotenvy::dotenv;
-    use poly_media_provider::{MediaDownloader, MediaType, PixabayProvider, SearchParams};
+    use fusion_media_provider::{MediaDownloader, MediaType, PixabayProvider, SearchParams};
     use std::env;
     use std::sync::Arc;
 
@@ -407,18 +407,12 @@ async fn test_media_downloader_multiple_providers() {
 
 #[tokio::test]
 async fn test_download_config_default() {
-    use poly_media_provider::DownloadConfig;
+    use fusion_media_provider::{DownloadConfig, ImageQuality, VideoQuality};
 
     let config = DownloadConfig::default();
 
-    assert_eq!(
-        config.image_quality,
-        poly_media_provider::ImageQuality::Large
-    );
-    assert_eq!(
-        config.video_quality,
-        poly_media_provider::VideoQuality::Large
-    );
+    assert_eq!(config.image_quality, ImageQuality::Large);
+    assert_eq!(config.video_quality, VideoQuality::Large);
     assert_eq!(config.output_dir, "./downloads");
     assert_eq!(config.max_concurrent, 5);
     assert!(config.progress_callback.is_none());
@@ -426,7 +420,7 @@ async fn test_download_config_default() {
 
 #[tokio::test]
 async fn test_search_params_builder() {
-    use poly_media_provider::{MediaType, SearchParams};
+    use fusion_media_provider::{MediaType, SearchParams};
 
     let params = SearchParams::new("test query", MediaType::Image)
         .limit(10)
@@ -440,7 +434,7 @@ async fn test_search_params_builder() {
 
 #[tokio::test]
 async fn test_media_item_creation() {
-    use poly_media_provider::{MediaItem, MediaMetadata, MediaType, MediaUrls};
+    use fusion_media_provider::{MediaItem, MediaMetadata, MediaType, MediaUrls};
 
     let item = MediaItem {
         id: "test-123".to_string(),
@@ -477,7 +471,7 @@ async fn test_media_item_creation() {
 
 #[tokio::test]
 async fn test_download_progress_new() {
-    use poly_media_provider::{DownloadProgress, MediaItem, MediaMetadata, MediaType, MediaUrls};
+    use fusion_media_provider::{DownloadProgress, MediaItem, MediaMetadata, MediaType, MediaUrls};
 
     let item = MediaItem {
         id: "test-123".to_string(),
@@ -517,7 +511,7 @@ async fn test_download_progress_new() {
 
 #[tokio::test]
 async fn test_batch_download_progress_new() {
-    use poly_media_provider::BatchDownloadProgress;
+    use fusion_media_provider::BatchDownloadProgress;
 
     let progress = BatchDownloadProgress::new(5);
 

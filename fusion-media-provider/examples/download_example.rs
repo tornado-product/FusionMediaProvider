@@ -1,5 +1,5 @@
 use dotenvy::dotenv;
-use poly_media_provider::{
+use fusion_media_provider::{
     BatchDownloadProgress, DownloadConfig, DownloadProgress, DownloadState, ImageQuality,
     MediaDownloader, MediaType, PixabayProvider, SearchParams, VideoQuality,
 };
@@ -72,7 +72,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     #[cfg(feature = "pexels")]
     if let Some(key) = pexels_key {
         downloader =
-            downloader.add_provider(Arc::new(poly_media_provider::PexelsProvider::new(key)));
+            downloader.add_provider(Arc::new(fusion_media_provider::PexelsProvider::new(key)));
     }
 
     println!("=== Media Downloader Demo ===");

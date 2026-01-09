@@ -7,9 +7,7 @@ use std::env;
 
 fn get_test_client() -> Option<Pixabay> {
     dotenv().ok();
-    env::var("PIXABAY_API_KEY")
-        .ok()
-        .map(Pixabay::new)
+    env::var("PIXABAY_API_KEY").ok().map(Pixabay::new)
 }
 
 #[tokio::test]

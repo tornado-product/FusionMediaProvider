@@ -4,7 +4,7 @@ Poly Media Downloader CLI - 多媒体下载命令行工具。
 */
 use clap::{Parser, Subcommand};
 use dotenvy::dotenv;
-use poly_media_provider::{
+use fusion_media_provider::{
     DownloadConfig, DownloadProgress, MediaDownloader, MediaItem, MediaType, ProgressCallback,
     SearchParams,
 };
@@ -197,7 +197,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             // 如果指定了提供商，添加该提供商
             let downloader = match provider {
                 Some(p) => {
-                    let api_key = env::var(&format!("{}_API_KEY", p.to_uppercase()))
+                    let api_key = env::var(format!("{}_API_KEY", p.to_uppercase()))
                         .unwrap_or_else(|_| panic!("请设置 {}_API_KEY 环境变量", p.to_uppercase()));
                     downloader.add_provider_by_name_and_apikey(&p, &api_key)
                 }
