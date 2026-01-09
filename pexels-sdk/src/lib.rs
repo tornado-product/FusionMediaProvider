@@ -25,7 +25,7 @@ use pexels_sdk;
 
 此示例展示了如何获取*山脉*照片列表。
 
-```rust
+```rust,no_run
 use dotenvy::dotenv;
 use std::env;
 use pexels_sdk::{PexelsClient, SearchParams};
@@ -532,7 +532,7 @@ impl PartialEq for PexelsError {
 /// 用于与 Pexels API 交互的客户端
 ///
 /// # 示例
-/// ```rust
+/// ```rust,no_run
 /// use dotenvy::dotenv;
 /// use pexels_sdk::PexelsClient;
 /// use std::env;
@@ -549,7 +549,7 @@ impl PartialEq for PexelsError {
 /// 如果请求失败或响应无法解析为 JSON，则返回 `PexelsError`。
 ///
 /// # 示例
-/// ```rust
+/// ```rust,no_run
 /// use dotenvy::dotenv;
 /// use pexels_sdk::PexelsClient;
 /// use pexels_sdk::SearchParams;
@@ -577,7 +577,7 @@ impl Pexels {
     /// * `api_key` - Pexels API 的 API 密钥。
     ///
     /// # 示例
-    /// ```rust
+    /// ```rust,no_run
     /// use dotenvy::dotenv;
     /// use pexels_sdk::PexelsClient;
     /// use std::env;
@@ -622,7 +622,7 @@ impl Pexels {
     /// 如果请求失败或响应无法解析为 JSON，则返回 `PexelsError`。
     ///
     /// # 示例
-    /// ```rust
+    /// ```rust,no_run
     /// use dotenvy::dotenv;
     /// use pexels_sdk::PexelsClient;
     /// use pexels_sdk::SearchParams;
@@ -654,7 +654,7 @@ impl Pexels {
     /// 如果请求失败或响应无法解析为 JSON，则返回 `PexelsError`。
     ///
     /// # 示例
-    /// ```rust
+    /// ```rust,no_run
     /// use dotenvy::dotenv;
     /// use pexels_sdk::PexelsClient;
     /// use std::env;
@@ -681,7 +681,7 @@ impl Pexels {
     /// 如果请求失败或响应无法解析为 JSON，则返回 `PexelsError`。  
     ///
     /// # Example
-    /// ```rust
+    /// ```rust,no_run
     /// use dotenvy::dotenv;
     /// use pexels_sdk::Pexels;
     /// use pexels_sdk::CuratedBuilder;
@@ -712,7 +712,7 @@ impl Pexels {
     /// Returns a `PexelsError` if the request fails or the response cannot be parsed as JSON.
     ///
     /// # Example
-    /// ```rust
+    /// ```rust,no_run
     /// use dotenvy::dotenv;
     /// use pexels_sdk::Pexels;
     /// use pexels_sdk::VideoSearchBuilder;
@@ -743,7 +743,7 @@ impl Pexels {
     /// Returns a `PexelsError` if the request fails or the response cannot be parsed as JSON.
     ///
     /// # Example
-    /// ```rust
+    /// ```rust,no_run
     /// use dotenvy::dotenv;
     /// use pexels_sdk::Pexels;
     /// use pexels_sdk::PopularBuilder;
@@ -774,7 +774,7 @@ impl Pexels {
     /// Returns a `PexelsError` if the request fails or the response cannot be parsed as JSON.
     ///
     /// # Example
-    /// ```rust
+    /// ```rust,no_run
     /// use dotenvy::dotenv;
     /// use pexels_sdk::Pexels;
     /// use std::env;
@@ -802,7 +802,7 @@ impl Pexels {
     /// Returns a `PexelsError` if the request fails or the response cannot be parsed as JSON.
     ///
     /// # Example
-    /// ```rust
+    /// ```rust,no_run
     /// use dotenvy::dotenv;
     /// use pexels_sdk::Pexels;
     /// use std::env;
@@ -839,7 +839,7 @@ impl Pexels {
     /// Returns a `PexelsError` if the request fails or the response cannot be parsed as JSON.
     ///
     /// # Example
-    /// ```rust
+    /// ```rust,no_run
     /// use dotenvy::dotenv;
     /// use pexels_sdk::Pexels;
     /// use std::env;
