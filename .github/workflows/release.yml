@@ -88,7 +88,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish-sdks:
-    name: Publish SDKs to crates.io
+    name: Publish ${{ matrix.package.name }} to crates.io
     runs-on: ubuntu-latest
     needs: create-release
     permissions:
@@ -96,7 +96,7 @@ jobs:
 
     strategy:
       matrix:
-        package:
+        include:
           - name: pixabay-sdk
             path: pixabay-sdk
           - name: pexels-sdk
@@ -135,7 +135,16 @@ jobs:
       - name: Verify package version
         run: |
           cd ${{ matrix.package.path }}
-          PACKAGE_VERSION=$(grep -E '^version\s*=' Cargo.toml | head -1 | sed 's/.*"\(.*\)".*/\1/')
+          # 检查是否使用 workspace 版本
+          if grep -q "version.workspace = true" Cargo.toml; then
+            # 从工作区 Cargo.toml 读取版本（包在根目录下，所以是 ../Cargo.toml）
+            PACKAGE_VERSION=$(grep -E '^version\s*=' ../Cargo.toml | head -1 | sed 's/.*"\(.*\)".*/\1/')
+          else
+            # 从包自己的 Cargo.toml 读取版本
+            PACKAGE_VERSION=$(grep -E '^version\s*=' Cargo.toml | head -1 | sed 's/.*"\(.*\)".*/\1/')
+          fi
+          echo "Package version: $PACKAGE_VERSION"
+          echo "Tag version: ${{ steps.tag.outputs.VERSION }}"
           if [ "$PACKAGE_VERSION" != "${{ steps.tag.outputs.VERSION }}" ]; then
             echo "Error: Package version ($PACKAGE_VERSION) doesn't match tag version (${{ steps.tag.outputs.VERSION }})"
             exit 1
@@ -198,7 +207,16 @@ jobs:
       - name: Verify package version
         run: |
           cd fusion-media-provider
-          PACKAGE_VERSION=$(grep -E '^version\s*=' Cargo.toml | head -1 | sed 's/.*"\(.*\)".*/\1/')
+          # 检查是否使用 workspace 版本
+          if grep -q "version.workspace = true" Cargo.toml; then
+            # 从工作区 Cargo.toml 读取版本
+            PACKAGE_VERSION=$(grep -E '^version\s*=' ../Cargo.toml | head -1 | sed 's/.*"\(.*\)".*/\1/')
+          else
+            # 从包自己的 Cargo.toml 读取版本
+            PACKAGE_VERSION=$(grep -E '^version\s*=' Cargo.toml | head -1 | sed 's/.*"\(.*\)".*/\1/')
+          fi
+          echo "Package version: $PACKAGE_VERSION"
+          echo "Tag version: ${{ steps.tag.outputs.VERSION }}"
           if [ "$PACKAGE_VERSION" != "${{ steps.tag.outputs.VERSION }}" ]; then
             echo "Error: Package version ($PACKAGE_VERSION) doesn't match tag version (${{ steps.tag.outputs.VERSION }})"
             exit 1
