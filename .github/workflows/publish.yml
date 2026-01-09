@@ -38,11 +38,6 @@ jobs:
           - package: fusion-media-provider
             path: fusion-media-provider
 
-    # 如果选择了特定包，只运行该包；如果选择 all，运行所有包
-    if: |
-      github.event.inputs.package == 'all' || 
-      github.event.inputs.package == matrix.package
-
     steps:
       - uses: actions/checkout@v4
 
@@ -63,18 +58,22 @@ jobs:
             ${{ runner.os }}-cargo-
 
       - name: Update version
-        if: github.event.inputs.version != ''
+        if: |
+          (github.event.inputs.package == 'all' || github.event.inputs.package == matrix.package) &&
+          github.event.inputs.version != ''
         run: |
           cd ${{ matrix.path }}
           # 更新 Cargo.toml 中的版本
           sed -i "s/^version = .*/version = \"${{ github.event.inputs.version }}\"/" Cargo.toml
 
       - name: Verify package
+        if: github.event.inputs.package == 'all' || github.event.inputs.package == matrix.package
         run: |
           cd ${{ matrix.path }}
           cargo package --allow-dirty
 
       - name: Publish to crates.io
+        if: github.event.inputs.package == 'all' || github.event.inputs.package == matrix.package
         run: |
           cd ${{ matrix.path }}
           cargo publish --token ${{ secrets.CRATES_IO_TOKEN }} --no-verify
@@ -82,6 +81,7 @@ jobs:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
 
       - name: Wait for crates.io index
+        if: github.event.inputs.package == 'all' || github.event.inputs.package == matrix.package
         run: |
           echo "Waiting for crates.io to update index..."
           sleep 10
