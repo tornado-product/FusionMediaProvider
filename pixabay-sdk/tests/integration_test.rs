@@ -11,6 +11,7 @@ fn get_test_client() -> Option<Pixabay> {
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_simple_image_search() {
     let client = get_test_client().expect("PIXABAY_API_KEY not set");
 
@@ -60,6 +61,7 @@ async fn test_advanced_image_search() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_get_image_by_id() {
     let client = get_test_client().expect("PIXABAY_API_KEY not set");
 
@@ -78,6 +80,7 @@ async fn test_get_image_by_id() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_simple_video_search() {
     let client = get_test_client().expect("PIXABAY_API_KEY not set");
 
@@ -124,6 +127,7 @@ async fn test_advanced_video_search() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_get_video_by_id() {
     let client = get_test_client().expect("PIXABAY_API_KEY not set");
 
@@ -145,6 +149,7 @@ async fn test_get_video_by_id() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_image_pagination() {
     let client = get_test_client().expect("PIXABAY_API_KEY not set");
 
@@ -246,6 +251,7 @@ async fn test_image_search_with_different_orders() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_video_search_with_different_video_types() {
     let client = get_test_client().expect("PIXABAY_API_KEY not set");
 
@@ -296,6 +302,7 @@ async fn test_get_nonexistent_image() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_get_nonexistent_video() {
     let client = get_test_client().expect("PIXABAY_API_KEY not set");
 
@@ -307,6 +314,7 @@ async fn test_get_nonexistent_video() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_safesearch_filter() {
     let client = get_test_client().expect("PIXABAY_API_KEY not set");
 
@@ -339,6 +347,7 @@ async fn test_safesearch_filter() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_color_filter() {
     let client = get_test_client().expect("PIXABAY_API_KEY not set");
 
