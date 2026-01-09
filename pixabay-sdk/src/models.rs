@@ -188,14 +188,15 @@ pub enum ImageType {
     Vector,
 }
 
-impl ToString for ImageType {
-    fn to_string(&self) -> String {
-        match self {
-            ImageType::All => "all".to_string(),
-            ImageType::Photo => "photo".to_string(),
-            ImageType::Illustration => "illustration".to_string(),
-            ImageType::Vector => "vector".to_string(),
-        }
+impl std::fmt::Display for ImageType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let s = match self {
+            ImageType::All => "all",
+            ImageType::Photo => "photo",
+            ImageType::Illustration => "illustration",
+            ImageType::Vector => "vector",
+        };
+        f.write_str(s)
     }
 }
 
@@ -213,13 +214,14 @@ pub enum VideoType {
     Animation,
 }
 
-impl ToString for VideoType {
-    fn to_string(&self) -> String {
-        match self {
-            VideoType::All => "all".to_string(),
-            VideoType::Film => "film".to_string(),
-            VideoType::Animation => "animation".to_string(),
-        }
+impl std::fmt::Display for VideoType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let s = match self {
+            VideoType::All => "all",
+            VideoType::Film => "film",
+            VideoType::Animation => "animation",
+        };
+        f.write_str(s)
     }
 }
 
@@ -231,13 +233,14 @@ pub enum Orientation {
     Vertical,
 }
 
-impl ToString for Orientation {
-    fn to_string(&self) -> String {
-        match self {
-            Orientation::All => "all".to_string(),
-            Orientation::Horizontal => "horizontal".to_string(),
-            Orientation::Vertical => "vertical".to_string(),
-        }
+impl std::fmt::Display for Orientation {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let s = match self {
+            Orientation::All => "all",
+            Orientation::Horizontal => "horizontal",
+            Orientation::Vertical => "vertical",
+        };
+        f.write_str(s)
     }
 }
 
@@ -289,30 +292,31 @@ pub enum Category {
     Music,
 }
 
-impl ToString for Category {
-    fn to_string(&self) -> String {
-        match self {
-            Category::Backgrounds => "backgrounds".to_string(),
-            Category::Fashion => "fashion".to_string(),
-            Category::Nature => "nature".to_string(),
-            Category::Science => "science".to_string(),
-            Category::Education => "education".to_string(),
-            Category::Feelings => "feelings".to_string(),
-            Category::Health => "health".to_string(),
-            Category::People => "people".to_string(),
-            Category::Religion => "religion".to_string(),
-            Category::Places => "places".to_string(),
-            Category::Animals => "animals".to_string(),
-            Category::Industry => "industry".to_string(),
-            Category::Computer => "computer".to_string(),
-            Category::Food => "food".to_string(),
-            Category::Sports => "sports".to_string(),
-            Category::Transportation => "transportation".to_string(),
-            Category::Travel => "travel".to_string(),
-            Category::Buildings => "buildings".to_string(),
-            Category::Business => "business".to_string(),
-            Category::Music => "music".to_string(),
-        }
+impl std::fmt::Display for Category {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let s = match self {
+            Category::Backgrounds => "backgrounds",
+            Category::Fashion => "fashion",
+            Category::Nature => "nature",
+            Category::Science => "science",
+            Category::Education => "education",
+            Category::Feelings => "feelings",
+            Category::Health => "health",
+            Category::People => "people",
+            Category::Religion => "religion",
+            Category::Places => "places",
+            Category::Animals => "animals",
+            Category::Industry => "industry",
+            Category::Computer => "computer",
+            Category::Food => "food",
+            Category::Sports => "sports",
+            Category::Transportation => "transportation",
+            Category::Travel => "travel",
+            Category::Buildings => "buildings",
+            Category::Business => "business",
+            Category::Music => "music",
+        };
+        f.write_str(s)
     }
 }
 
@@ -328,12 +332,13 @@ pub enum Order {
     Latest,
 }
 
-impl ToString for Order {
-    fn to_string(&self) -> String {
-        match self {
-            Order::Popular => "popular".to_string(),
-            Order::Latest => "latest".to_string(),
-        }
+impl std::fmt::Display for Order {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let s = match self {
+            Order::Popular => "popular",
+            Order::Latest => "latest",
+        };
+        f.write_str(s)
     }
 }
 
@@ -397,35 +402,36 @@ pub enum Language {
     Zh,
 }
 
-impl ToString for Language {
-    fn to_string(&self) -> String {
-        match self {
-            Language::Cs => "cs".to_string(),
-            Language::Da => "da".to_string(),
-            Language::De => "de".to_string(),
-            Language::En => "en".to_string(),
-            Language::Es => "es".to_string(),
-            Language::Fr => "fr".to_string(),
-            Language::Id => "id".to_string(),
-            Language::It => "it".to_string(),
-            Language::Hu => "hu".to_string(),
-            Language::Nl => "nl".to_string(),
-            Language::No => "no".to_string(),
-            Language::Pl => "pl".to_string(),
-            Language::Pt => "pt".to_string(),
-            Language::Ro => "ro".to_string(),
-            Language::Sk => "sk".to_string(),
-            Language::Fi => "fi".to_string(),
-            Language::Sv => "sv".to_string(),
-            Language::Tr => "tr".to_string(),
-            Language::Vi => "vi".to_string(),
-            Language::Th => "th".to_string(),
-            Language::Bg => "bg".to_string(),
-            Language::Ru => "ru".to_string(),
-            Language::El => "el".to_string(),
-            Language::Ja => "ja".to_string(),
-            Language::Ko => "ko".to_string(),
-            Language::Zh => "zh".to_string(),
-        }
+impl std::fmt::Display for Language {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let s = match self {
+            Language::Cs => "cs",
+            Language::Da => "da",
+            Language::De => "de",
+            Language::En => "en",
+            Language::Es => "es",
+            Language::Fr => "fr",
+            Language::Id => "id",
+            Language::It => "it",
+            Language::Hu => "hu",
+            Language::Nl => "nl",
+            Language::No => "no",
+            Language::Pl => "pl",
+            Language::Pt => "pt",
+            Language::Ro => "ro",
+            Language::Sk => "sk",
+            Language::Fi => "fi",
+            Language::Sv => "sv",
+            Language::Tr => "tr",
+            Language::Vi => "vi",
+            Language::Th => "th",
+            Language::Bg => "bg",
+            Language::Ru => "ru",
+            Language::El => "el",
+            Language::Ja => "ja",
+            Language::Ko => "ko",
+            Language::Zh => "zh",
+        };
+        f.write_str(s)
     }
 }
