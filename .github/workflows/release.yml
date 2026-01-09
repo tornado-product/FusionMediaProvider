@@ -88,7 +88,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   publish-sdks:
-    name: Publish ${{ matrix.package.name }} to crates.io
+    name: Publish ${{ matrix.name }} to crates.io
     runs-on: ubuntu-latest
     needs: create-release
     permissions:
@@ -134,7 +134,7 @@ jobs:
 
       - name: Verify package version
         run: |
-          cd ${{ matrix.package.path }}
+          cd ${{ matrix.path }}
           # 检查是否使用 workspace 版本
           if grep -q "version.workspace = true" Cargo.toml; then
             # 从工作区 Cargo.toml 读取版本（包在根目录下，所以是 ../Cargo.toml）
@@ -152,7 +152,7 @@ jobs:
 
       - name: Publish to crates.io
         run: |
-          cd ${{ matrix.package.path }}
+          cd ${{ matrix.path }}
           cargo publish --token ${{ secrets.CRATES_IO_TOKEN }} --no-verify
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CRATES_IO_TOKEN }}
