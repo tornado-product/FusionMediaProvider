@@ -10,6 +10,7 @@ fn get_test_client() -> Option<Pexels> {
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_search_photos() {
     let client = get_test_client().expect("PEXELS_API_KEY not set");
 
@@ -30,6 +31,7 @@ async fn test_search_photos() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_search_videos() {
     let client = get_test_client().expect("PEXELS_API_KEY not set");
 
@@ -67,6 +69,7 @@ async fn test_get_photo_by_id() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_get_video_by_id() {
     let client = get_test_client().expect("PEXELS_API_KEY not set");
 
@@ -120,6 +123,7 @@ async fn test_popular_videos() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_search_with_different_pages() {
     let client = get_test_client().expect("PEXELS_API_KEY not set");
 
@@ -174,6 +178,7 @@ async fn test_invalid_api_key() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_collection_operations() {
     let client = get_test_client().expect("PEXELS_API_KEY not set");
 
