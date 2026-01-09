@@ -25,7 +25,7 @@
 <a href=#25 id=25 data-nosnippet>25</a>
 <a href=#26 id=26 data-nosnippet>26</a>此示例展示了如何获取*山脉*照片列表。
 <a href=#27 id=27 data-nosnippet>27</a>
-<a href=#28 id=28 data-nosnippet>28</a>```rust
+<a href=#28 id=28 data-nosnippet>28</a>```rust,no_run
 <a href=#29 id=29 data-nosnippet>29</a>use dotenvy::dotenv;
 <a href=#30 id=30 data-nosnippet>30</a>use std::env;
 <a href=#31 id=31 data-nosnippet>31</a>use pexels_sdk::{PexelsClient, SearchParams};
@@ -532,7 +532,7 @@
 <a href=#532 id=532 data-nosnippet>532</a><span class="doccomment">/// 用于与 Pexels API 交互的客户端
 <a href=#533 id=533 data-nosnippet>533</a>///
 <a href=#534 id=534 data-nosnippet>534</a>/// # 示例
-<a href=#535 id=535 data-nosnippet>535</a>/// ```rust
+<a href=#535 id=535 data-nosnippet>535</a>/// ```rust,no_run
 <a href=#536 id=536 data-nosnippet>536</a>/// use dotenvy::dotenv;
 <a href=#537 id=537 data-nosnippet>537</a>/// use pexels_sdk::PexelsClient;
 <a href=#538 id=538 data-nosnippet>538</a>/// use std::env;
@@ -549,7 +549,7 @@
 <a href=#549 id=549 data-nosnippet>549</a>/// 如果请求失败或响应无法解析为 JSON，则返回 `PexelsError`。
 <a href=#550 id=550 data-nosnippet>550</a>///
 <a href=#551 id=551 data-nosnippet>551</a>/// # 示例
-<a href=#552 id=552 data-nosnippet>552</a>/// ```rust
+<a href=#552 id=552 data-nosnippet>552</a>/// ```rust,no_run
 <a href=#553 id=553 data-nosnippet>553</a>/// use dotenvy::dotenv;
 <a href=#554 id=554 data-nosnippet>554</a>/// use pexels_sdk::PexelsClient;
 <a href=#555 id=555 data-nosnippet>555</a>/// use pexels_sdk::SearchParams;
@@ -577,7 +577,7 @@
 <a href=#577 id=577 data-nosnippet>577</a>    /// * `api_key` - Pexels API 的 API 密钥。
 <a href=#578 id=578 data-nosnippet>578</a>    ///
 <a href=#579 id=579 data-nosnippet>579</a>    /// # 示例
-<a href=#580 id=580 data-nosnippet>580</a>    /// ```rust
+<a href=#580 id=580 data-nosnippet>580</a>    /// ```rust,no_run
 <a href=#581 id=581 data-nosnippet>581</a>    /// use dotenvy::dotenv;
 <a href=#582 id=582 data-nosnippet>582</a>    /// use pexels_sdk::PexelsClient;
 <a href=#583 id=583 data-nosnippet>583</a>    /// use std::env;
@@ -622,7 +622,7 @@
 <a href=#622 id=622 data-nosnippet>622</a>    /// 如果请求失败或响应无法解析为 JSON，则返回 `PexelsError`。
 <a href=#623 id=623 data-nosnippet>623</a>    ///
 <a href=#624 id=624 data-nosnippet>624</a>    /// # 示例
-<a href=#625 id=625 data-nosnippet>625</a>    /// ```rust
+<a href=#625 id=625 data-nosnippet>625</a>    /// ```rust,no_run
 <a href=#626 id=626 data-nosnippet>626</a>    /// use dotenvy::dotenv;
 <a href=#627 id=627 data-nosnippet>627</a>    /// use pexels_sdk::PexelsClient;
 <a href=#628 id=628 data-nosnippet>628</a>    /// use pexels_sdk::SearchParams;
@@ -654,7 +654,7 @@
 <a href=#654 id=654 data-nosnippet>654</a>    /// 如果请求失败或响应无法解析为 JSON，则返回 `PexelsError`。
 <a href=#655 id=655 data-nosnippet>655</a>    ///
 <a href=#656 id=656 data-nosnippet>656</a>    /// # 示例
-<a href=#657 id=657 data-nosnippet>657</a>    /// ```rust
+<a href=#657 id=657 data-nosnippet>657</a>    /// ```rust,no_run
 <a href=#658 id=658 data-nosnippet>658</a>    /// use dotenvy::dotenv;
 <a href=#659 id=659 data-nosnippet>659</a>    /// use pexels_sdk::PexelsClient;
 <a href=#660 id=660 data-nosnippet>660</a>    /// use std::env;
@@ -681,7 +681,7 @@
 <a href=#681 id=681 data-nosnippet>681</a>    /// 如果请求失败或响应无法解析为 JSON，则返回 `PexelsError`。  
 <a href=#682 id=682 data-nosnippet>682</a>    ///
 <a href=#683 id=683 data-nosnippet>683</a>    /// # Example
-<a href=#684 id=684 data-nosnippet>684</a>    /// ```rust
+<a href=#684 id=684 data-nosnippet>684</a>    /// ```rust,no_run
 <a href=#685 id=685 data-nosnippet>685</a>    /// use dotenvy::dotenv;
 <a href=#686 id=686 data-nosnippet>686</a>    /// use pexels_sdk::Pexels;
 <a href=#687 id=687 data-nosnippet>687</a>    /// use pexels_sdk::CuratedBuilder;
@@ -712,7 +712,7 @@
 <a href=#712 id=712 data-nosnippet>712</a>    /// Returns a `PexelsError` if the request fails or the response cannot be parsed as JSON.
 <a href=#713 id=713 data-nosnippet>713</a>    ///
 <a href=#714 id=714 data-nosnippet>714</a>    /// # Example
-<a href=#715 id=715 data-nosnippet>715</a>    /// ```rust
+<a href=#715 id=715 data-nosnippet>715</a>    /// ```rust,no_run
 <a href=#716 id=716 data-nosnippet>716</a>    /// use dotenvy::dotenv;
 <a href=#717 id=717 data-nosnippet>717</a>    /// use pexels_sdk::Pexels;
 <a href=#718 id=718 data-nosnippet>718</a>    /// use pexels_sdk::VideoSearchBuilder;
@@ -743,7 +743,7 @@
 <a href=#743 id=743 data-nosnippet>743</a>    /// Returns a `PexelsError` if the request fails or the response cannot be parsed as JSON.
 <a href=#744 id=744 data-nosnippet>744</a>    ///
 <a href=#745 id=745 data-nosnippet>745</a>    /// # Example
-<a href=#746 id=746 data-nosnippet>746</a>    /// ```rust
+<a href=#746 id=746 data-nosnippet>746</a>    /// ```rust,no_run
 <a href=#747 id=747 data-nosnippet>747</a>    /// use dotenvy::dotenv;
 <a href=#748 id=748 data-nosnippet>748</a>    /// use pexels_sdk::Pexels;
 <a href=#749 id=749 data-nosnippet>749</a>    /// use pexels_sdk::PopularBuilder;
@@ -774,7 +774,7 @@
 <a href=#774 id=774 data-nosnippet>774</a>    /// Returns a `PexelsError` if the request fails or the response cannot be parsed as JSON.
 <a href=#775 id=775 data-nosnippet>775</a>    ///
 <a href=#776 id=776 data-nosnippet>776</a>    /// # Example
-<a href=#777 id=777 data-nosnippet>777</a>    /// ```rust
+<a href=#777 id=777 data-nosnippet>777</a>    /// ```rust,no_run
 <a href=#778 id=778 data-nosnippet>778</a>    /// use dotenvy::dotenv;
 <a href=#779 id=779 data-nosnippet>779</a>    /// use pexels_sdk::Pexels;
 <a href=#780 id=780 data-nosnippet>780</a>    /// use std::env;
@@ -802,7 +802,7 @@
 <a href=#802 id=802 data-nosnippet>802</a>    /// Returns a `PexelsError` if the request fails or the response cannot be parsed as JSON.
 <a href=#803 id=803 data-nosnippet>803</a>    ///
 <a href=#804 id=804 data-nosnippet>804</a>    /// # Example
-<a href=#805 id=805 data-nosnippet>805</a>    /// ```rust
+<a href=#805 id=805 data-nosnippet>805</a>    /// ```rust,no_run
 <a href=#806 id=806 data-nosnippet>806</a>    /// use dotenvy::dotenv;
 <a href=#807 id=807 data-nosnippet>807</a>    /// use pexels_sdk::Pexels;
 <a href=#808 id=808 data-nosnippet>808</a>    /// use std::env;
@@ -839,7 +839,7 @@
 <a href=#839 id=839 data-nosnippet>839</a>    /// Returns a `PexelsError` if the request fails or the response cannot be parsed as JSON.
 <a href=#840 id=840 data-nosnippet>840</a>    ///
 <a href=#841 id=841 data-nosnippet>841</a>    /// # Example
-<a href=#842 id=842 data-nosnippet>842</a>    /// ```rust
+<a href=#842 id=842 data-nosnippet>842</a>    /// ```rust,no_run
 <a href=#843 id=843 data-nosnippet>843</a>    /// use dotenvy::dotenv;
 <a href=#844 id=844 data-nosnippet>844</a>    /// use pexels_sdk::Pexels;
 <a href=#845 id=845 data-nosnippet>845</a>    /// use std::env;
