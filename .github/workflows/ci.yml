@@ -10,11 +10,13 @@ env:
   CARGO_TERM_COLOR: always
   CARGO_NET_RETRY: 10
   RUST_BACKTRACE: 1
+  RUSTUP_MAX_RETRIES: 10
 
 jobs:
   test:
     name: Test
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
@@ -34,10 +36,12 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install Rust
+        timeout-minutes: 15
         uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: ${{ matrix.rust }}
           targets: ${{ matrix.target }}
+          profile: minimal
 
       - name: Cache cargo registry
         uses: actions/cache@v4
@@ -80,7 +84,10 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install Rust
+        timeout-minutes: 15
         uses: dtolnay/rust-toolchain@stable
+        with:
+          profile: minimal
 
       - name: Cache cargo registry
         uses: actions/cache@v4
