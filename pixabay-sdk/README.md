@@ -39,7 +39,7 @@ Add the following to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-pixabay-sdk = "0.1.0"
+pixabay-sdk = "xxx"
 reqwest = { version = "0.12", features = ["json"] }
 tokio = { version = "1", features = ["full"] }
 dotenvy = "0.15"

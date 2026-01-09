@@ -19,7 +19,7 @@
 
 ```toml
 [dependencies]
-poly-media-provider = { path = "../poly-media-provider" }
+fusion-media-provider = "xxxx"
 dotenvy = "0.15"
 tokio = { version = "1", features = ["full"] }
 ```

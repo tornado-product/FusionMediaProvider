@@ -6,14 +6,10 @@ members = [
     "pixabay-sdk-cli",
     "fusion-media-provider",
 ]
-
 resolver = "2"
 
-[profile.release]
-opt-level = 3
-
 [workspace.package]
-version = "1.0.1"
+version = "1.0.2"
 authors = ["https://github.com/tornado-product"]
 edition = "2021"
 rust-version = "1.83.0"
@@ -25,6 +21,9 @@ documentation = "https://docs.rs/fusion-media-provider"
 readme = "./README.md"
 keywords = ["pexels", "api", "client", "cli", "pexels-sdk"]
 categories = ["web-programming", "development-tools", "asynchronous", "network-programming"]
+
+[profile.release]
+opt-level = 3
 
 [workspace.dependencies]
 clap = { version = "4.5.53", features = ["derive"] }

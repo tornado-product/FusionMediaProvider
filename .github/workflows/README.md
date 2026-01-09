@@ -213,6 +213,10 @@ on:
 1. **CRATES_IO_TOKEN** (必需)
    - 获取方式: [crates.io](https://crates.io) → Account Settings → API Tokens
    - 用于发布包到 crates.io
+   - **重要**: 发布前必须验证邮箱地址
+     - 访问 https://crates.io/settings/profile
+     - 设置并验证你的邮箱地址
+     - 未验证邮箱会导致发布失败
    - 点击仓库顶部的 Settings（设置）标签
    - 在左侧边栏找到 Secrets and variables → 点击 Actions
    - 在 Repository secrets 部分，点击 New repository secret 按钮
@@ -379,9 +383,14 @@ git push origin v1.0.1
 ### 发布失败
 
 1. **检查 Token**: 确保 `CRATES_IO_TOKEN` 已正确设置
-2. **检查版本**: 确保版本号未被使用
-3. **检查依赖**: 确保依赖的包已发布
-4. **查看日志**: 在 Actions 页面查看详细错误信息
+2. **检查邮箱验证**: 
+   - 错误信息: `A verified email address is required to publish crates to crates.io`
+   - 解决方法: 访问 https://crates.io/settings/profile
+   - 设置并验证你的邮箱地址
+   - 验证完成后重新运行发布工作流
+3. **检查版本**: 确保版本号未被使用
+4. **检查依赖**: 确保依赖的包已发布
+5. **查看日志**: 在 Actions 页面查看详细错误信息
 
 ### CI 失败
 

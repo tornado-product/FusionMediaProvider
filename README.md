@@ -19,6 +19,15 @@
 └── fusion-media-provider/  # 统一媒体下载器 (抽象层) ⭐
 ```
 
+### 版本要变动的时候要修改以下版本：
+#### Cargo.toml的version：
+[workspace.package]
+version = "1.0.1"
+
+#### fusion-media-provider的Cargo.toml的version：
+pixabay-sdk = { path = "../pixabay-sdk", version = "1.0.1" }
+pexels-sdk = { path = "../pexels-sdk", version = "1.0.1", optional = true }
+
 ### 组件说明
 
 #### 1. **pixabay-sdk** - Pixabay API 客户端
@@ -87,11 +96,11 @@ CLI 工具用于 Pexels API:
 ```toml
 [dependencies]
 # 使用统一下载器 (推荐)
-fusion-media-provider = { path = "path/to/fusion-media-provider", features = ["pexels"] }
+fusion-media-provider = { version = "xxx", features = ["pexels"] }
 
 # 或单独使用各个 SDK
-pixabay-sdk = { path = "path/to/pixabay-sdk" }
-pexels-sdk = { path = "path/to/pexels-sdk" }
+pixabay-sdk = { version = "xxx" }
+pexels-sdk = { version = "xxx" }
 
 dotenvy = "0.15"
 tokio = { version = "1", features = ["full"] }
