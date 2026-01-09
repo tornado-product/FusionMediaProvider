@@ -25,10 +25,9 @@ impl PixabayProvider {
     /// Pixabay API 使用 + 号连接多个关键字（URL编码后的空格）
     /// HTTP 客户端库（如 reqwest）会自动对 URL 参数进行编码，将空格转换为 %20 或 +
     fn process_query(query: &str) -> String {
-        // 首先将空格替换为 +，然后统一使用逗号、分号、竖线分隔
+        // 统一使用空白、逗号、分号、竖线作为分隔符，然后用 + 连接关键字
         query
-            .replace(' ', " ")
-            .split(|c: char| c == ',' || c == ';' || c == '|' || c == ' ')
+            .split([' ', ',', ';', '|'])
             .map(|s| s.trim())
             .filter(|s| !s.is_empty())
             .collect::<Vec<_>>()

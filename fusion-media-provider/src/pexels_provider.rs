@@ -27,9 +27,9 @@ impl PexelsProvider {
     ///
     /// 所有格式都会转换为空格分隔的自然语言查询
     fn process_query(query: &str) -> String {
-        // 将逗号、分号等分隔符统一替换为空格，保持自然语言风格
+        // 将逗号、分号、竖线等分隔符统一替换为空格，保持自然语言风格
         query
-            .split(|c: char| c == ',' || c == ';' || c == '|')
+            .split([',', ';', '|'])
             .map(|s| s.trim())
             .filter(|s| !s.is_empty())
             .collect::<Vec<_>>()

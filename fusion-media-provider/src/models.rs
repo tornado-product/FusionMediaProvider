@@ -263,7 +263,7 @@ impl SearchResult {
         if per_page == 0 {
             return 0;
         }
-        (total + per_page - 1) / per_page // 向上取整
+        total.div_ceil(per_page) // 向上取整
     }
 }
 

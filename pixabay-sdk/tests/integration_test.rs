@@ -9,7 +9,7 @@ fn get_test_client() -> Option<Pixabay> {
     dotenv().ok();
     env::var("PIXABAY_API_KEY")
         .ok()
-        .map(|key| Pixabay::new(key))
+        .map(Pixabay::new)
 }
 
 #[tokio::test]
@@ -24,7 +24,7 @@ async fn test_simple_image_search() {
     let response = result.unwrap();
     assert!(response.total > 0);
     assert!(response.total_hits > 0);
-    assert!(response.hits.len() > 0);
+    assert!(!response.hits.is_empty());
     assert!(response.hits.len() <= 5);
     println!(
         "Found {} total images, showing {}",
@@ -89,7 +89,7 @@ async fn test_simple_video_search() {
     let response = result.unwrap();
     assert!(response.total > 0);
     assert!(response.total_hits > 0);
-    assert!(response.hits.len() > 0);
+    assert!(!response.hits.is_empty());
     assert!(response.hits.len() <= 5);
     println!(
         "Found {} total videos, showing {}",
@@ -157,8 +157,8 @@ async fn test_image_pagination() {
     assert!(page2_result.is_ok());
     let page2 = page2_result.unwrap();
 
-    assert!(page1.hits.len() > 0);
-    assert!(page2.hits.len() > 0);
+    assert!(!page1.hits.is_empty());
+    assert!(!page2.hits.is_empty());
 
     if let (Some(img1), Some(img2)) = (page1.hits.first(), page2.hits.first()) {
         assert_ne!(
@@ -186,8 +186,8 @@ async fn test_video_pagination() {
     assert!(page2_result.is_ok());
     let page2 = page2_result.unwrap();
 
-    assert!(page1.hits.len() > 0);
-    assert!(page2.hits.len() > 0);
+    assert!(!page1.hits.is_empty());
+    assert!(!page2.hits.is_empty());
 
     if let (Some(vid1), Some(vid2)) = (page1.hits.first(), page2.hits.first()) {
         assert_ne!(
@@ -221,7 +221,7 @@ async fn test_image_search_with_different_categories() {
 
         let response = result.unwrap();
         println!("Category {:?}: {} results", *category, response.total_hits);
-        assert!(response.hits.len() > 0);
+        assert!(!response.hits.is_empty());
     }
 }
 
@@ -243,7 +243,7 @@ async fn test_image_search_with_different_orders() {
 
         let response = result.unwrap();
         println!("Order {:?}: {} results", *order, response.total_hits);
-        assert!(response.hits.len() > 0);
+        assert!(!response.hits.is_empty());
     }
 }
 
