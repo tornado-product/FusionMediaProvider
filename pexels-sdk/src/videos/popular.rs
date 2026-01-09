@@ -27,27 +27,33 @@ impl Popular {
         let mut url = Url::parse(uri.as_str())?;
 
         if let Some(min_width) = &self.min_width {
-            url.query_pairs_mut().append_pair("min_width", min_width.to_string().as_str());
+            url.query_pairs_mut()
+                .append_pair("min_width", min_width.to_string().as_str());
         }
 
         if let Some(min_height) = &self.min_height {
-            url.query_pairs_mut().append_pair("min_height", min_height.to_string().as_str());
+            url.query_pairs_mut()
+                .append_pair("min_height", min_height.to_string().as_str());
         }
 
         if let Some(min_duration) = &self.min_duration {
-            url.query_pairs_mut().append_pair("min_duration", min_duration.to_string().as_str());
+            url.query_pairs_mut()
+                .append_pair("min_duration", min_duration.to_string().as_str());
         }
 
         if let Some(max_duration) = &self.max_duration {
-            url.query_pairs_mut().append_pair("max_duration", max_duration.to_string().as_str());
+            url.query_pairs_mut()
+                .append_pair("max_duration", max_duration.to_string().as_str());
         }
 
         if let Some(page) = &self.page {
-            url.query_pairs_mut().append_pair("page", page.to_string().as_str());
+            url.query_pairs_mut()
+                .append_pair("page", page.to_string().as_str());
         }
 
         if let Some(per_page) = &self.per_page {
-            url.query_pairs_mut().append_pair("per_page", per_page.to_string().as_str());
+            url.query_pairs_mut()
+                .append_pair("per_page", per_page.to_string().as_str());
         }
 
         Ok(url.into())
@@ -135,13 +141,19 @@ mod tests {
     #[test]
     fn test_min_width() {
         let uri = PopularBuilder::new().min_width(1).build();
-        assert_eq!("https://api.pexels.com/videos/popular?min_width=1", uri.create_uri().unwrap());
+        assert_eq!(
+            "https://api.pexels.com/videos/popular?min_width=1",
+            uri.create_uri().unwrap()
+        );
     }
 
     #[test]
     fn test_min_height() {
         let uri = PopularBuilder::new().min_height(1).build();
-        assert_eq!("https://api.pexels.com/videos/popular?min_height=1", uri.create_uri().unwrap());
+        assert_eq!(
+            "https://api.pexels.com/videos/popular?min_height=1",
+            uri.create_uri().unwrap()
+        );
     }
 
     #[test]
@@ -165,12 +177,18 @@ mod tests {
     #[test]
     fn test_page() {
         let uri = PopularBuilder::new().page(1).build();
-        assert_eq!("https://api.pexels.com/videos/popular?page=1", uri.create_uri().unwrap());
+        assert_eq!(
+            "https://api.pexels.com/videos/popular?page=1",
+            uri.create_uri().unwrap()
+        );
     }
 
     #[test]
     fn test_per_page() {
         let uri = PopularBuilder::new().per_page(1).build();
-        assert_eq!("https://api.pexels.com/videos/popular?per_page=1", uri.create_uri().unwrap());
+        assert_eq!(
+            "https://api.pexels.com/videos/popular?per_page=1",
+            uri.create_uri().unwrap()
+        );
     }
 }

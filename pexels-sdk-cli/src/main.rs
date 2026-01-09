@@ -22,14 +22,22 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 匹配命令并执行对应的函数
     match args.command {
-        cli::Command::SearchPhotos { query, per_page, page } => {
+        cli::Command::SearchPhotos {
+            query,
+            per_page,
+            page,
+        } => {
             // 根据查询搜索照片
             let photos = search_photos(&query, per_page, page).await?;
             for photo in photos.photos {
                 println!("{photo:?}");
             }
         }
-        cli::Command::SearchVideos { query, per_page, page } => {
+        cli::Command::SearchVideos {
+            query,
+            per_page,
+            page,
+        } => {
             // 根据查询搜索视频
             let videos = search_videos(&query, per_page, page).await?;
             for video in videos.videos {
@@ -53,7 +61,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 println!("{collection:?}");
             }
         }
-        cli::Command::SearchMedia { query, per_page, page, r#type, sort } => {
+        cli::Command::SearchMedia {
+            query,
+            per_page,
+            page,
+            r#type,
+            sort,
+        } => {
             // 根据查询搜索媒体（照片和视频）
             let mtype = r#type.parse::<MediaType>()?;
             let msort = sort.parse::<MediaSort>()?;

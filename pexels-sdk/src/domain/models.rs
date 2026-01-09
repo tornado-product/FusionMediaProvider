@@ -48,7 +48,10 @@ pub enum MediaType {
 impl From<MediaType> for MediaPhoto {
     fn from(media: MediaType) -> Self {
         match media {
-            MediaType::Photo(photo) => MediaPhoto { type_: "Photo".to_string(), ..photo },
+            MediaType::Photo(photo) => MediaPhoto {
+                type_: "Photo".to_string(),
+                ..photo
+            },
             _ => panic!("Expected Photo"),
         }
     }
@@ -57,7 +60,10 @@ impl From<MediaType> for MediaPhoto {
 impl From<MediaType> for MediaVideo {
     fn from(media: MediaType) -> Self {
         match media {
-            MediaType::Video(video) => MediaVideo { type_: "Video".to_string(), ..video },
+            MediaType::Video(video) => MediaVideo {
+                type_: "Video".to_string(),
+                ..video
+            },
             _ => panic!("Expected Video"),
         }
     }

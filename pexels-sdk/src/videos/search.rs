@@ -31,15 +31,18 @@ impl<'a> Search<'a> {
         url.query_pairs_mut().append_pair("query", self.query);
 
         if let Some(page) = &self.page {
-            url.query_pairs_mut().append_pair("page", page.to_string().as_str());
+            url.query_pairs_mut()
+                .append_pair("page", page.to_string().as_str());
         }
 
         if let Some(per_page) = &self.per_page {
-            url.query_pairs_mut().append_pair("per_page", per_page.to_string().as_str());
+            url.query_pairs_mut()
+                .append_pair("per_page", per_page.to_string().as_str());
         }
 
         if let Some(orientation) = &self.orientation {
-            url.query_pairs_mut().append_pair("orientation", orientation.as_str());
+            url.query_pairs_mut()
+                .append_pair("orientation", orientation.as_str());
         }
 
         if let Some(size) = &self.size {
@@ -76,7 +79,14 @@ pub struct SearchBuilder<'a> {
 impl<'a> SearchBuilder<'a> {
     /// Create a new [`SearchBuilder`].
     pub fn new() -> Self {
-        Self { query: "", page: None, per_page: None, orientation: None, size: None, locale: None }
+        Self {
+            query: "",
+            page: None,
+            per_page: None,
+            orientation: None,
+            size: None,
+            locale: None,
+        }
     }
 
     /// Sets the search query.
@@ -136,13 +146,19 @@ mod tests {
     #[test]
     fn test_query() {
         let uri = SearchBuilder::new().query("bar").build();
-        assert_eq!("https://api.pexels.com/videos/search?query=bar", uri.create_uri().unwrap());
+        assert_eq!(
+            "https://api.pexels.com/videos/search?query=bar",
+            uri.create_uri().unwrap()
+        );
     }
 
     #[test]
     fn test_page() {
         let uri = SearchBuilder::new().page(1).build();
-        assert_eq!("https://api.pexels.com/videos/search?query=&page=1", uri.create_uri().unwrap());
+        assert_eq!(
+            "https://api.pexels.com/videos/search?query=&page=1",
+            uri.create_uri().unwrap()
+        );
     }
 
     #[test]
@@ -156,7 +172,9 @@ mod tests {
 
     #[test]
     fn test_orientation() {
-        let uri = SearchBuilder::new().orientation(Orientation::Landscape).build();
+        let uri = SearchBuilder::new()
+            .orientation(Orientation::Landscape)
+            .build();
         assert_eq!(
             "https://api.pexels.com/videos/search?query=&orientation=landscape",
             uri.create_uri().unwrap()

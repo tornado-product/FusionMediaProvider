@@ -1,6 +1,6 @@
-use async_trait::async_trait;
+use crate::error::Result;
 use crate::models::{MediaItem, MediaType, SearchResult};
-use crate::error::{Result};
+use async_trait::async_trait;
 
 /// 媒体提供商的 Trait（Pixabay, Pexels 等）
 #[async_trait]

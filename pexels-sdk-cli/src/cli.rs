@@ -2,7 +2,11 @@ use clap::{Parser, Subcommand};
 
 /// Pexels CLI 命令行参数解析结构体
 #[derive(Parser, Debug)]
-#[clap(name = "pexels-sdk-cli", version = "0.0.1", about = "用于与 Pexels API 交互的命令行工具")]
+#[clap(
+    name = "pexels-sdk-cli",
+    version = "0.0.1",
+    about = "用于与 Pexels API 交互的命令行工具"
+)]
 pub struct Cli {
     /// 子命令
     #[clap(subcommand)]
@@ -30,7 +34,7 @@ pub enum Command {
         #[clap(short, long)]
         query: String,
         /// 每页结果数量
-        #[clap(short='n', long, default_value = "15")]
+        #[clap(short = 'n', long, default_value = "15")]
         per_page: usize,
         /// 页码
         #[clap(short, long, default_value = "1")]

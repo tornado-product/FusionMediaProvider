@@ -27,11 +27,13 @@ impl Featured {
         let mut url = Url::parse(uri.as_str())?;
 
         if let Some(page) = &self.page {
-            url.query_pairs_mut().append_pair("page", page.to_string().as_str());
+            url.query_pairs_mut()
+                .append_pair("page", page.to_string().as_str());
         }
 
         if let Some(per_page) = &self.per_page {
-            url.query_pairs_mut().append_pair("per_page", per_page.to_string().as_str());
+            url.query_pairs_mut()
+                .append_pair("per_page", per_page.to_string().as_str());
         }
 
         Ok(url.into())
@@ -56,7 +58,10 @@ pub struct FeaturedBuilder {
 impl FeaturedBuilder {
     /// Creates a new `FeaturedBuilder`.
     pub fn new() -> Self {
-        Self { page: None, per_page: None }
+        Self {
+            page: None,
+            per_page: None,
+        }
     }
 
     /// Sets the page number for the featured collections request.
@@ -73,6 +78,9 @@ impl FeaturedBuilder {
 
     /// Build the `Featured` request from the `FeaturedBuilder` parameters.
     pub fn build(self) -> Featured {
-        Featured { page: self.page, per_page: self.per_page }
+        Featured {
+            page: self.page,
+            per_page: self.per_page,
+        }
     }
 }

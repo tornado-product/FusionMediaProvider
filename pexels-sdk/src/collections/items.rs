@@ -22,11 +22,13 @@ impl Collections {
         let mut url = Url::parse(uri.as_str())?;
 
         if let Some(page) = &self.page {
-            url.query_pairs_mut().append_pair("page", page.to_string().as_str());
+            url.query_pairs_mut()
+                .append_pair("page", page.to_string().as_str());
         }
 
         if let Some(per_page) = &self.per_page {
-            url.query_pairs_mut().append_pair("per_page", per_page.to_string().as_str());
+            url.query_pairs_mut()
+                .append_pair("per_page", per_page.to_string().as_str());
         }
 
         Ok(url.into())
@@ -51,7 +53,10 @@ pub struct CollectionsBuilder {
 impl CollectionsBuilder {
     /// Creates a new `CollectionsBuilder`.
     pub fn new() -> Self {
-        Self { page: None, per_page: None }
+        Self {
+            page: None,
+            per_page: None,
+        }
     }
 
     /// Sets the page number for the collection request.
@@ -68,6 +73,9 @@ impl CollectionsBuilder {
 
     /// Builds the `Collections` request from the `CollectionsBuilder` parameters
     pub fn build(self) -> Collections {
-        Collections { page: self.page, per_page: self.per_page }
+        Collections {
+            page: self.page,
+            per_page: self.per_page,
+        }
     }
 }

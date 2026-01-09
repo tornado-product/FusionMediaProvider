@@ -1,19 +1,26 @@
 use dotenvy::dotenv;
-use pexels_sdk::{Pexels, PexelsError, CuratedBuilder, PopularBuilder, SearchBuilder, VideoSearchBuilder};
+use pexels_sdk::{
+    CuratedBuilder, Pexels, PexelsError, PopularBuilder, SearchBuilder, VideoSearchBuilder,
+};
 use std::env;
 
 fn get_test_client() -> Option<Pexels> {
     dotenv().ok();
-    env::var("PEXELS_API_KEY")
-        .ok()
-        .map(|key| Pexels::new(key))
+    env::var("PEXELS_API_KEY").ok().map(|key| Pexels::new(key))
 }
 
 #[tokio::test]
 async fn test_search_photos() {
     let client = get_test_client().expect("PEXELS_API_KEY not set");
 
-    let result = client.search_photos(SearchBuilder::new().query("yellow flowers").per_page(5).page(1)).await;
+    let result = client
+        .search_photos(
+            SearchBuilder::new()
+                .query("yellow flowers")
+                .per_page(5)
+                .page(1),
+        )
+        .await;
     assert!(result.is_ok());
 
     let response = result.unwrap();
@@ -26,7 +33,14 @@ async fn test_search_photos() {
 async fn test_search_videos() {
     let client = get_test_client().expect("PEXELS_API_KEY not set");
 
-    let result = client.search_videos(VideoSearchBuilder::new().query("ocean waves").per_page(3).page(1)).await;
+    let result = client
+        .search_videos(
+            VideoSearchBuilder::new()
+                .query("ocean waves")
+                .per_page(3)
+                .page(1),
+        )
+        .await;
     assert!(result.is_ok());
 
     let response = result.unwrap();
@@ -60,7 +74,11 @@ async fn test_get_video_by_id() {
     match result {
         Ok(video) => {
             assert_eq!(video.id, 12345);
-            println!("Video: {} - duration: {}s", video.id, video.duration.unwrap_or(0));
+            println!(
+                "Video: {} - duration: {}s",
+                video.id,
+                video.duration.unwrap_or(0)
+            );
         }
         Err(PexelsError::NotFound(_)) => {
             println!("Video 12345 not found (expected for non-existent ID)");
@@ -76,7 +94,9 @@ async fn test_get_video_by_id() {
 async fn test_curated_photos() {
     let client = get_test_client().expect("PEXELS_API_KEY not set");
 
-    let result = client.curated_photo(CuratedBuilder::new().per_page(10).page(1)).await;
+    let result = client
+        .curated_photo(CuratedBuilder::new().per_page(10).page(1))
+        .await;
     assert!(result.is_ok());
 
     let response = result.unwrap();
@@ -89,7 +109,9 @@ async fn test_curated_photos() {
 async fn test_popular_videos() {
     let client = get_test_client().expect("PEXELS_API_KEY not set");
 
-    let result = client.popular_videos(PopularBuilder::new().per_page(10).page(1)).await;
+    let result = client
+        .popular_videos(PopularBuilder::new().per_page(10).page(1))
+        .await;
     assert!(result.is_ok());
 
     let response = result.unwrap();
@@ -101,10 +123,14 @@ async fn test_popular_videos() {
 async fn test_search_with_different_pages() {
     let client = get_test_client().expect("PEXELS_API_KEY not set");
 
-    let result = client.search_photos(SearchBuilder::new().query("nature").per_page(5).page(1)).await;
+    let result = client
+        .search_photos(SearchBuilder::new().query("nature").per_page(5).page(1))
+        .await;
     assert!(result.is_ok(), "Page 1 should return valid results");
     let page1 = result.unwrap();
-    let result = client.search_photos(SearchBuilder::new().query("nature").per_page(5).page(2)).await;
+    let result = client
+        .search_photos(SearchBuilder::new().query("nature").per_page(5).page(2))
+        .await;
     assert!(result.is_ok(), "Page 2 should return valid results");
     let page2 = result.unwrap();
 
@@ -112,10 +138,17 @@ async fn test_search_with_different_pages() {
     assert!(page2.photos.len() > 0);
 
     if let (Some(item1), Some(item2)) = (page1.photos.first(), page2.photos.first()) {
-        assert_ne!(item1.id, item2.id, "Different pages should return different items");
+        assert_ne!(
+            item1.id, item2.id,
+            "Different pages should return different items"
+        );
     }
 
-    println!("Page 1 items: {}, Page 2 items: {}", page1.photos.len(), page2.photos.len());
+    println!(
+        "Page 1 items: {}, Page 2 items: {}",
+        page1.photos.len(),
+        page2.photos.len()
+    );
 }
 
 #[tokio::test]
@@ -125,11 +158,16 @@ async fn test_invalid_api_key() {
     std::env::set_var("PEXELS_API_KEY", "invalid_key");
 
     let client = Pexels::new("invalid_key".to_string());
-    let result = client.search_photos(SearchBuilder::new().query("test").page(1)).await;
+    let result = client
+        .search_photos(SearchBuilder::new().query("test").page(1))
+        .await;
 
     assert!(result.is_err());
     if let Err(PexelsError::ApiError(msg)) = result {
-        assert!(msg.contains("401") || msg.contains("Unauthorized"), "Invalid API key should return error");
+        assert!(
+            msg.contains("401") || msg.contains("Unauthorized"),
+            "Invalid API key should return error"
+        );
     }
 
     std::env::remove_var("PEXELS_API_KEY");

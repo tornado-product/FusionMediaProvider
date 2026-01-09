@@ -46,7 +46,11 @@ impl PexelsClient {
             .build()
             .unwrap_or_default();
 
-        Self { api_key: api_key.into(), client, base_url: "https://api.pexels.com/v1".to_string() }
+        Self {
+            api_key: api_key.into(),
+            client,
+            base_url: "https://api.pexels.com/v1".to_string(),
+        }
     }
 
     /// 使用自定义配置创建新的 PexelsClient
@@ -71,7 +75,11 @@ impl PexelsClient {
             .build()
             .unwrap_or_default();
 
-        Self { api_key: api_key.into(), client, base_url: "https://api.pexels.com/v1".to_string() }
+        Self {
+            api_key: api_key.into(),
+            client,
+            base_url: "https://api.pexels.com/v1".to_string(),
+        }
     }
 
     /// 为 Pexels API 设置自定义基础 URL
@@ -143,9 +151,9 @@ impl PexelsClient {
             }
             StatusCode::UNAUTHORIZED => Err(PexelsError::AuthError("Invalid API key".to_string())),
             StatusCode::TOO_MANY_REQUESTS => Err(PexelsError::RateLimitError),
-            status => {
-                Err(PexelsError::ApiError(format!("Search photos failed with status: {status}")))
-            }
+            status => Err(PexelsError::ApiError(format!(
+                "Search photos failed with status: {status}"
+            ))),
         }
     }
 
@@ -170,7 +178,8 @@ impl PexelsClient {
         }
 
         if let Some(per_page) = params.per_page {
-            url.query_pairs_mut().append_pair("per_page", &per_page.to_string());
+            url.query_pairs_mut()
+                .append_pair("per_page", &per_page.to_string());
         }
 
         let response = self.send_request(url).await?;
@@ -182,9 +191,9 @@ impl PexelsClient {
             }
             StatusCode::UNAUTHORIZED => Err(PexelsError::AuthError("Invalid API key".to_string())),
             StatusCode::TOO_MANY_REQUESTS => Err(PexelsError::RateLimitError),
-            status => {
-                Err(PexelsError::ApiError(format!("Curated photos failed with status: {status}")))
-            }
+            status => Err(PexelsError::ApiError(format!(
+                "Curated photos failed with status: {status}"
+            ))),
         }
     }
 
@@ -207,14 +216,14 @@ impl PexelsClient {
                 let photo: Photo = response.json().await?;
                 Ok(photo)
             }
-            StatusCode::NOT_FOUND => {
-                Err(PexelsError::NotFound(format!("Photo with ID {id} not found")))
-            }
+            StatusCode::NOT_FOUND => Err(PexelsError::NotFound(format!(
+                "Photo with ID {id} not found"
+            ))),
             StatusCode::UNAUTHORIZED => Err(PexelsError::AuthError("Invalid API key".to_string())),
             StatusCode::TOO_MANY_REQUESTS => Err(PexelsError::RateLimitError),
-            status => {
-                Err(PexelsError::ApiError(format!("Get photo failed with status: {status}")))
-            }
+            status => Err(PexelsError::ApiError(format!(
+                "Get photo failed with status: {status}"
+            ))),
         }
     }
 
@@ -244,11 +253,13 @@ impl PexelsClient {
         }
 
         if let Some(per_page) = params.per_page {
-            url.query_pairs_mut().append_pair("per_page", &per_page.to_string());
+            url.query_pairs_mut()
+                .append_pair("per_page", &per_page.to_string());
         }
 
         if let Some(ref orientation) = params.orientation {
-            url.query_pairs_mut().append_pair("orientation", orientation.as_str());
+            url.query_pairs_mut()
+                .append_pair("orientation", orientation.as_str());
         }
 
         if let Some(ref size) = params.size {
@@ -268,9 +279,9 @@ impl PexelsClient {
             }
             StatusCode::UNAUTHORIZED => Err(PexelsError::AuthError("Invalid API key".to_string())),
             StatusCode::TOO_MANY_REQUESTS => Err(PexelsError::RateLimitError),
-            status => {
-                Err(PexelsError::ApiError(format!("Search videos failed with status: {status}")))
-            }
+            status => Err(PexelsError::ApiError(format!(
+                "Search videos failed with status: {status}"
+            ))),
         }
     }
 
@@ -295,7 +306,8 @@ impl PexelsClient {
         }
 
         if let Some(per_page) = params.per_page {
-            url.query_pairs_mut().append_pair("per_page", &per_page.to_string());
+            url.query_pairs_mut()
+                .append_pair("per_page", &per_page.to_string());
         }
 
         let response = self.send_request(url).await?;
@@ -307,9 +319,9 @@ impl PexelsClient {
             }
             StatusCode::UNAUTHORIZED => Err(PexelsError::AuthError("Invalid API key".to_string())),
             StatusCode::TOO_MANY_REQUESTS => Err(PexelsError::RateLimitError),
-            status => {
-                Err(PexelsError::ApiError(format!("Popular videos failed with status: {status}")))
-            }
+            status => Err(PexelsError::ApiError(format!(
+                "Popular videos failed with status: {status}"
+            ))),
         }
     }
 
@@ -332,14 +344,14 @@ impl PexelsClient {
                 let video: Video = response.json().await?;
                 Ok(video)
             }
-            StatusCode::NOT_FOUND => {
-                Err(PexelsError::NotFound(format!("Video with ID {id} not found")))
-            }
+            StatusCode::NOT_FOUND => Err(PexelsError::NotFound(format!(
+                "Video with ID {id} not found"
+            ))),
             StatusCode::UNAUTHORIZED => Err(PexelsError::AuthError("Invalid API key".to_string())),
             StatusCode::TOO_MANY_REQUESTS => Err(PexelsError::RateLimitError),
-            status => {
-                Err(PexelsError::ApiError(format!("Get video failed with status: {status}")))
-            }
+            status => Err(PexelsError::ApiError(format!(
+                "Get video failed with status: {status}"
+            ))),
         }
     }
 
@@ -364,7 +376,8 @@ impl PexelsClient {
         }
 
         if let Some(per_page) = params.per_page {
-            url.query_pairs_mut().append_pair("per_page", &per_page.to_string());
+            url.query_pairs_mut()
+                .append_pair("per_page", &per_page.to_string());
         }
 
         let response = self.send_request(url).await?;
@@ -405,7 +418,8 @@ impl PexelsClient {
         }
 
         if let Some(per_page) = params.per_page {
-            url.query_pairs_mut().append_pair("per_page", &per_page.to_string());
+            url.query_pairs_mut()
+                .append_pair("per_page", &per_page.to_string());
         }
 
         let response = self.send_request(url).await?;
@@ -415,9 +429,9 @@ impl PexelsClient {
                 let media_page: MediaPage = response.json().await?;
                 Ok(media_page)
             }
-            StatusCode::NOT_FOUND => {
-                Err(PexelsError::NotFound(format!("Collection with ID {id} not found")))
-            }
+            StatusCode::NOT_FOUND => Err(PexelsError::NotFound(format!(
+                "Collection with ID {id} not found"
+            ))),
             StatusCode::UNAUTHORIZED => Err(PexelsError::AuthError("Invalid API key".to_string())),
             StatusCode::TOO_MANY_REQUESTS => Err(PexelsError::RateLimitError),
             status => Err(PexelsError::ApiError(format!(
@@ -436,8 +450,12 @@ impl PexelsClient {
     ///
     /// 包含 HTTP 响应或错误的结果
     async fn send_request(&self, url: Url) -> Result<reqwest::Response, PexelsError> {
-        let response =
-            self.client.get(url).header(header::AUTHORIZATION, &self.api_key).send().await?;
+        let response = self
+            .client
+            .get(url)
+            .header(header::AUTHORIZATION, &self.api_key)
+            .send()
+            .await?;
 
         Ok(response)
     }

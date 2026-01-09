@@ -133,12 +133,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     dotenv().ok();
 
     // 从环境变量获取 API 密钥
-    let api_key = env::var("PIXABAY_API_KEY")
-        .expect("必须在环境变量或 .env 文件中设置 PIXABAY_API_KEY");
+    let api_key =
+        env::var("PIXABAY_API_KEY").expect("必须在环境变量或 .env 文件中设置 PIXABAY_API_KEY");
 
     // 创建 Pixabay 客户端
     let client = Pixabay::new(api_key);
-    
+
     // 解析命令行参数
     let cli = Cli::parse();
 
@@ -293,10 +293,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             let response = client.search_videos_advanced(params).await?;
             println!("hits lent:{}", response.hits.len());
             let first_video = response.hits.first();
-            if let Some(video) = first_video{
+            if let Some(video) = first_video {
                 println!("video1 url:{}", video.page_url);
                 let video_result = client.get_video(video.id).await;
-                if let Ok(video) = video_result{
+                if let Ok(video) = video_result {
                     println!("videoUrl:{}", video.page_url);
                 }
             }

@@ -93,7 +93,11 @@ impl Pixabay {
             Err(PixabayError::InvalidApiKey)
         } else {
             let error_text = response.text().await?;
-            Err(PixabayError::ApiError(format!("HTTP {}: {}", status.as_u16(), error_text)))
+            Err(PixabayError::ApiError(format!(
+                "HTTP {}: {}",
+                status.as_u16(),
+                error_text
+            )))
         }
     }
 
@@ -122,10 +126,7 @@ impl Pixabay {
     /// # Ok(())
     /// # }
     /// ```
-    pub async fn search_images_advanced(
-        &self,
-        params: SearchImageParams,
-    ) -> Result<ImageResponse> {
+    pub async fn search_images_advanced(&self, params: SearchImageParams) -> Result<ImageResponse> {
         // 验证 per_page 范围
         let per_page = params.per_page.unwrap_or(20).clamp(3, 200);
 
@@ -139,7 +140,7 @@ impl Pixabay {
             if q.len() > 100 {
                 drop(query);
                 return Err(PixabayError::ApiError(
-                    "查询字符串不能超过 100 个字符".to_string()
+                    "查询字符串不能超过 100 个字符".to_string(),
                 ));
             }
             query.append_pair("q", q);
@@ -212,7 +213,10 @@ impl Pixabay {
         let response = self.client.get(url).send().await?;
 
         let image_response: ImageResponse = self.handle_response(response).await?;
-        image_response.hits.into_iter().next()
+        image_response
+            .hits
+            .into_iter()
+            .next()
             .ok_or_else(|| PixabayError::ApiError(format!("未找到 ID 为 {} 的图片", id)))
     }
 
@@ -280,10 +284,7 @@ impl Pixabay {
     /// # Ok(())
     /// # }
     /// ```
-    pub async fn search_videos_advanced(
-        &self,
-        params: SearchVideoParams,
-    ) -> Result<VideoResponse> {
+    pub async fn search_videos_advanced(&self, params: SearchVideoParams) -> Result<VideoResponse> {
         // 验证 per_page 范围
         let per_page = params.per_page.unwrap_or(20).clamp(3, 200);
 
@@ -297,7 +298,7 @@ impl Pixabay {
             if q.len() > 100 {
                 drop(query);
                 return Err(PixabayError::ApiError(
-                    "查询字符串不能超过 100 个字符".to_string()
+                    "查询字符串不能超过 100 个字符".to_string(),
                 ));
             }
             query.append_pair("q", q);
@@ -364,7 +365,10 @@ impl Pixabay {
         let response = self.client.get(url).send().await?;
 
         let video_response: VideoResponse = self.handle_response(response).await?;
-        video_response.hits.into_iter().next()
+        video_response
+            .hits
+            .into_iter()
+            .next()
             .ok_or_else(|| PixabayError::ApiError(format!("未找到 ID 为 {} 的视频", id)))
     }
 }

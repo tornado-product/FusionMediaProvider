@@ -16,7 +16,9 @@ fn get_test_client() -> Option<Pixabay> {
 async fn test_simple_image_search() {
     let client = get_test_client().expect("PIXABAY_API_KEY not set");
 
-    let result = client.search_images("yellow flowers", Some(5), Some(1)).await;
+    let result = client
+        .search_images("yellow flowers", Some(5), Some(1))
+        .await;
     assert!(result.is_ok());
 
     let response = result.unwrap();
@@ -24,7 +26,11 @@ async fn test_simple_image_search() {
     assert!(response.total_hits > 0);
     assert!(response.hits.len() > 0);
     assert!(response.hits.len() <= 5);
-    println!("Found {} total images, showing {}", response.total_hits, response.hits.len());
+    println!(
+        "Found {} total images, showing {}",
+        response.total_hits,
+        response.hits.len()
+    );
 }
 
 #[tokio::test]
@@ -85,7 +91,11 @@ async fn test_simple_video_search() {
     assert!(response.total_hits > 0);
     assert!(response.hits.len() > 0);
     assert!(response.hits.len() <= 5);
-    println!("Found {} total videos, showing {}", response.total_hits, response.hits.len());
+    println!(
+        "Found {} total videos, showing {}",
+        response.total_hits,
+        response.hits.len()
+    );
 }
 
 #[tokio::test]
@@ -129,8 +139,10 @@ async fn test_get_video_by_id() {
 
         let video = result.unwrap();
         assert_eq!(video.id, first_video.id);
-        println!("Retrieved video: ID={}, Duration={}s, Views={}",
-                 video.id, video.duration, video.views);
+        println!(
+            "Retrieved video: ID={}, Duration={}s, Views={}",
+            video.id, video.duration, video.views
+        );
     }
 }
 
@@ -149,10 +161,17 @@ async fn test_image_pagination() {
     assert!(page2.hits.len() > 0);
 
     if let (Some(img1), Some(img2)) = (page1.hits.first(), page2.hits.first()) {
-        assert_ne!(img1.id, img2.id, "Different pages should return different images");
+        assert_ne!(
+            img1.id, img2.id,
+            "Different pages should return different images"
+        );
     }
 
-    println!("Page 1: {} images, Page 2: {} images", page1.hits.len(), page2.hits.len());
+    println!(
+        "Page 1: {} images, Page 2: {} images",
+        page1.hits.len(),
+        page2.hits.len()
+    );
 }
 
 #[tokio::test]
@@ -171,10 +190,17 @@ async fn test_video_pagination() {
     assert!(page2.hits.len() > 0);
 
     if let (Some(vid1), Some(vid2)) = (page1.hits.first(), page2.hits.first()) {
-        assert_ne!(vid1.id, vid2.id, "Different pages should return different videos");
+        assert_ne!(
+            vid1.id, vid2.id,
+            "Different pages should return different videos"
+        );
     }
 
-    println!("Page 1: {} videos, Page 2: {} videos", page1.hits.len(), page2.hits.len());
+    println!(
+        "Page 1: {} videos, Page 2: {} videos",
+        page1.hits.len(),
+        page2.hits.len()
+    );
 }
 
 #[tokio::test]
@@ -297,13 +323,21 @@ async fn test_safesearch_filter() {
         .safesearch(false);
 
     let result_with = client.search_images_advanced(params_with_safesearch).await;
-    let result_without = client.search_images_advanced(params_without_safesearch).await;
+    let result_without = client
+        .search_images_advanced(params_without_safesearch)
+        .await;
 
     assert!(result_with.is_ok());
     assert!(result_without.is_ok());
 
-    println!("With safesearch: {} results", result_with.unwrap().total_hits);
-    println!("Without safesearch: {} results", result_without.unwrap().total_hits);
+    println!(
+        "With safesearch: {} results",
+        result_with.unwrap().total_hits
+    );
+    println!(
+        "Without safesearch: {} results",
+        result_without.unwrap().total_hits
+    );
 }
 
 #[tokio::test]

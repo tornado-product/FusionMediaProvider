@@ -9,17 +9,23 @@ use std::env;
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     dotenv().ok();
 
-    let api_key = env::var("PIXABAY_API_KEY")
-        .expect("PIXABAY_API_KEY must be set in .env file");
+    let api_key = env::var("PIXABAY_API_KEY").expect("PIXABAY_API_KEY must be set in .env file");
 
     let client = Pixabay::new(api_key);
 
     println!("=== Simple Image Search ===");
-    let images = client.search_images("yellow flowers", Some(5), Some(1)).await?;
-    println!("Found {} total images (showing {})", images.total, images.total_hits);
+    let images = client
+        .search_images("yellow flowers", Some(5), Some(1))
+        .await?;
+    println!(
+        "Found {} total images (showing {})",
+        images.total, images.total_hits
+    );
     for image in &images.hits {
-        println!("- ID: {}, Tags: {}, Size: {}x{}",
-                 image.id, image.tags, image.image_width, image.image_height);
+        println!(
+            "- ID: {}, Tags: {}, Size: {}x{}",
+            image.id, image.tags, image.image_width, image.image_height
+        );
         println!("  URL: {}", image.page_url);
     }
 
@@ -36,11 +42,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .order(Order::Latest);
 
     let images = client.search_images_advanced(params).await?;
-    println!("Found {} images with filters (max 500 shown)", images.total_hits);
+    println!(
+        "Found {} images with filters (max 500 shown)",
+        images.total_hits
+    );
     for image in &images.hits {
-        println!("- {} ({}x{})", image.tags, image.image_width, image.image_height);
-        println!("  Views: {}, Downloads: {}, Likes: {}",
-                 image.views, image.downloads, image.likes);
+        println!(
+            "- {} ({}x{})",
+            image.tags, image.image_width, image.image_height
+        );
+        println!(
+            "  Views: {}, Downloads: {}, Likes: {}",
+            image.views, image.downloads, image.likes
+        );
     }
 
     println!("\n=== Get Specific Image by ID ===");
@@ -78,8 +92,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let videos = client.search_videos("ocean", Some(3), Some(1)).await?;
     println!("Found {} total videos", videos.total_hits);
     for video in &videos.hits {
-        println!("- ID: {}, Tags: {}, Duration: {}s",
-                 video.id, video.tags, video.duration);
+        println!(
+            "- ID: {}, Tags: {}, Duration: {}s",
+            video.id, video.tags, video.duration
+        );
         println!("  URL: {}", video.page_url);
     }
 
@@ -99,20 +115,36 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("  User: {}", video.user);
         println!("  Available resolutions:");
         if let Some(large) = &video.videos.large {
-            println!("    - Large: {}x{} ({} MB)",
-                     large.width, large.height, large.size / 1_000_000);
+            println!(
+                "    - Large: {}x{} ({} MB)",
+                large.width,
+                large.height,
+                large.size / 1_000_000
+            );
         }
         if let Some(medium) = &video.videos.medium {
-            println!("    - Medium: {}x{} ({} MB)",
-                     medium.width, medium.height, medium.size / 1_000_000);
+            println!(
+                "    - Medium: {}x{} ({} MB)",
+                medium.width,
+                medium.height,
+                medium.size / 1_000_000
+            );
         }
         if let Some(small) = &video.videos.small {
-            println!("    - Small: {}x{} ({} MB)",
-                     small.width, small.height, small.size / 1_000_000);
+            println!(
+                "    - Small: {}x{} ({} MB)",
+                small.width,
+                small.height,
+                small.size / 1_000_000
+            );
         }
         if let Some(tiny) = &video.videos.tiny {
-            println!("    - Tiny: {}x{} ({} MB)",
-                     tiny.width, tiny.height, tiny.size / 1_000_000);
+            println!(
+                "    - Tiny: {}x{} ({} MB)",
+                tiny.width,
+                tiny.height,
+                tiny.size / 1_000_000
+            );
         }
     }
 

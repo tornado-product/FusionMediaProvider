@@ -590,7 +590,10 @@ impl Pexels {
     /// }
     /// ```
     pub fn new(api_key: String) -> Self {
-        Pexels { client: Client::new(), api_key }
+        Pexels {
+            client: Client::new(),
+            api_key,
+        }
     }
 
     /// 向指定 URL 发送 HTTP GET 请求并返回 JSON 响应。
@@ -818,7 +821,12 @@ impl Pexels {
         per_page: usize,
         page: usize,
     ) -> Result<CollectionsResponse, PexelsError> {
-        CollectionsBuilder::new().per_page(per_page).page(page).build().fetch(self).await
+        CollectionsBuilder::new()
+            .per_page(per_page)
+            .page(page)
+            .build()
+            .fetch(self)
+            .await
     }
 
     /// Retrieves a list of featured collections from the Pexels API.
@@ -850,7 +858,12 @@ impl Pexels {
         per_page: usize,
         page: usize,
     ) -> Result<CollectionsResponse, PexelsError> {
-        FeaturedBuilder::new().per_page(per_page).page(page).build().fetch(self).await
+        FeaturedBuilder::new()
+            .per_page(per_page)
+            .page(page)
+            .build()
+            .fetch(self)
+            .await
     }
 
     /// Retrieves all media (photos and videos) within a single collection.

@@ -57,12 +57,18 @@ impl DownloadManager {
             .build()
             .unwrap_or_default();
 
-        Self { client, max_concurrent }
+        Self {
+            client,
+            max_concurrent,
+        }
     }
 
     /// Create a 'DownloadManager' with a custom 'Client'
     pub fn with_client(client: Client, max_concurrent: usize) -> Self {
-        Self { client, max_concurrent }
+        Self {
+            client,
+            max_concurrent,
+        }
     }
 
     /// Download the photos from the given URL and save to the specified output directory
@@ -386,7 +392,10 @@ impl DownloadManager {
         if path.exists() {
             if let Ok(metadata) = fs::metadata(&path).await {
                 range_start = metadata.len();
-                headers.insert(header::RANGE, format!("bytes={range_start}-").parse().unwrap());
+                headers.insert(
+                    header::RANGE,
+                    format!("bytes={range_start}-").parse().unwrap(),
+                );
             }
         }
 

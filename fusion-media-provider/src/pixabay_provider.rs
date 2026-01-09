@@ -1,7 +1,7 @@
 use crate::error::{MediaError, Result};
-use crate::models::{MediaItem, MediaType, MediaUrls, MediaMetadata, VideoFile, SearchResult};
-use async_trait::async_trait;
 use crate::media_provider::MediaProvider;
+use crate::models::{MediaItem, MediaMetadata, MediaType, MediaUrls, SearchResult, VideoFile};
+use async_trait::async_trait;
 
 /// Pixabay 提供商实现
 pub struct PixabayProvider {
@@ -45,10 +45,15 @@ impl MediaProvider for PixabayProvider {
     async fn search_images(&self, query: &str, limit: u32, page: u32) -> Result<SearchResult> {
         // 处理多关键字查询
         let processed_query = Self::process_query(query);
-        let response = self.client.search_images(&processed_query, Some(limit), Some(page)).await?;
+        let response = self
+            .client
+            .search_images(&processed_query, Some(limit), Some(page))
+            .await?;
 
-        let items: Vec<MediaItem> = response.hits.into_iter().map(|img| {
-            MediaItem {
+        let items: Vec<MediaItem> = response
+            .hits
+            .into_iter()
+            .map(|img| MediaItem {
                 id: img.id.to_string(),
                 media_type: MediaType::Image,
                 title: img.tags.clone(),
@@ -74,8 +79,8 @@ impl MediaProvider for PixabayProvider {
                     downloads: img.downloads,
                     likes: img.likes,
                 },
-            }
-        }).collect();
+            })
+            .collect();
 
         let total_pages = SearchResult::calculate_total_pages(response.total, limit);
 
@@ -93,76 +98,93 @@ impl MediaProvider for PixabayProvider {
     async fn search_videos(&self, query: &str, limit: u32, page: u32) -> Result<SearchResult> {
         // 处理多关键字查询
         let processed_query = Self::process_query(query);
-        let response = self.client.search_videos(&processed_query, Some(limit), Some(page)).await?;
+        let response = self
+            .client
+            .search_videos(&processed_query, Some(limit), Some(page))
+            .await?;
 
-        let items: Vec<MediaItem> = response.hits.into_iter().map(|vid| {
-            let video_files: Vec<VideoFile> = vec![
-                vid.videos.large.as_ref().map(|v| VideoFile {
-                    quality: "large".to_string(),
-                    url: v.url.clone(),
-                    width: v.width,
-                    height: v.height,
-                    size: v.size,
-                    thumbnail: Some(v.thumbnail.clone()),
-                }),
-                vid.videos.medium.as_ref().map(|v| VideoFile {
-                    quality: "medium".to_string(),
-                    url: v.url.clone(),
-                    width: v.width,
-                    height: v.height,
-                    size: v.size,
-                    thumbnail: Some(v.thumbnail.clone()),
-                }),
-                vid.videos.small.as_ref().map(|v| VideoFile {
-                    quality: "small".to_string(),
-                    url: v.url.clone(),
-                    width: v.width,
-                    height: v.height,
-                    size: v.size,
-                    thumbnail: Some(v.thumbnail.clone()),
-                }),
-                vid.videos.tiny.as_ref().map(|v| VideoFile {
-                    quality: "tiny".to_string(),
-                    url: v.url.clone(),
-                    width: v.width,
-                    height: v.height,
-                    size: v.size,
-                    thumbnail: Some(v.thumbnail.clone()),
-                }),
-            ].into_iter().flatten().collect();
+        let items: Vec<MediaItem> = response
+            .hits
+            .into_iter()
+            .map(|vid| {
+                let video_files: Vec<VideoFile> = vec![
+                    vid.videos.large.as_ref().map(|v| VideoFile {
+                        quality: "large".to_string(),
+                        url: v.url.clone(),
+                        width: v.width,
+                        height: v.height,
+                        size: v.size,
+                        thumbnail: Some(v.thumbnail.clone()),
+                    }),
+                    vid.videos.medium.as_ref().map(|v| VideoFile {
+                        quality: "medium".to_string(),
+                        url: v.url.clone(),
+                        width: v.width,
+                        height: v.height,
+                        size: v.size,
+                        thumbnail: Some(v.thumbnail.clone()),
+                    }),
+                    vid.videos.small.as_ref().map(|v| VideoFile {
+                        quality: "small".to_string(),
+                        url: v.url.clone(),
+                        width: v.width,
+                        height: v.height,
+                        size: v.size,
+                        thumbnail: Some(v.thumbnail.clone()),
+                    }),
+                    vid.videos.tiny.as_ref().map(|v| VideoFile {
+                        quality: "tiny".to_string(),
+                        url: v.url.clone(),
+                        width: v.width,
+                        height: v.height,
+                        size: v.size,
+                        thumbnail: Some(v.thumbnail.clone()),
+                    }),
+                ]
+                .into_iter()
+                .flatten()
+                .collect();
 
-            let thumbnail = video_files.first()
-                .and_then(|f| f.thumbnail.clone())
-                .unwrap_or_default();
+                let thumbnail = video_files
+                    .first()
+                    .and_then(|f| f.thumbnail.clone())
+                    .unwrap_or_default();
 
-            MediaItem {
-                id: vid.id.to_string(),
-                media_type: MediaType::Video,
-                title: vid.tags.clone(),
-                description: vid.tags.clone(),
-                tags: vid.tags.split(',').map(|s| s.trim().to_string()).collect(),
-                author: vid.user.clone(),
-                author_url: format!("https://pixabay.com/users/{}-{}/", vid.user, vid.user_id),
-                source_url: vid.page_url.clone(),
-                provider: "Pixabay".to_string(),
-                urls: MediaUrls {
-                    thumbnail,
-                    medium: video_files.iter().find(|f| f.quality == "medium").map(|f| f.url.clone()),
-                    large: video_files.iter().find(|f| f.quality == "large").map(|f| f.url.clone()),
-                    original: None,
-                    video_files: Some(video_files),
-                },
-                metadata: MediaMetadata {
-                    width: vid.videos.large.as_ref().map(|v| v.width).unwrap_or(0),
-                    height: vid.videos.large.as_ref().map(|v| v.height).unwrap_or(0),
-                    size: vid.videos.large.as_ref().map(|v| v.size),
-                    duration: Some(vid.duration),
-                    views: vid.views,
-                    downloads: vid.downloads,
-                    likes: vid.likes,
-                },
-            }
-        }).collect();
+                MediaItem {
+                    id: vid.id.to_string(),
+                    media_type: MediaType::Video,
+                    title: vid.tags.clone(),
+                    description: vid.tags.clone(),
+                    tags: vid.tags.split(',').map(|s| s.trim().to_string()).collect(),
+                    author: vid.user.clone(),
+                    author_url: format!("https://pixabay.com/users/{}-{}/", vid.user, vid.user_id),
+                    source_url: vid.page_url.clone(),
+                    provider: "Pixabay".to_string(),
+                    urls: MediaUrls {
+                        thumbnail,
+                        medium: video_files
+                            .iter()
+                            .find(|f| f.quality == "medium")
+                            .map(|f| f.url.clone()),
+                        large: video_files
+                            .iter()
+                            .find(|f| f.quality == "large")
+                            .map(|f| f.url.clone()),
+                        original: None,
+                        video_files: Some(video_files),
+                    },
+                    metadata: MediaMetadata {
+                        width: vid.videos.large.as_ref().map(|v| v.width).unwrap_or(0),
+                        height: vid.videos.large.as_ref().map(|v| v.height).unwrap_or(0),
+                        size: vid.videos.large.as_ref().map(|v| v.size),
+                        duration: Some(vid.duration),
+                        views: vid.views,
+                        downloads: vid.downloads,
+                        likes: vid.likes,
+                    },
+                }
+            })
+            .collect();
 
         let total_pages = SearchResult::calculate_total_pages(response.total, limit);
 
@@ -180,7 +202,7 @@ impl MediaProvider for PixabayProvider {
     async fn get_media(&self, id: &str, media_type: MediaType) -> Result<MediaItem> {
         let id_num = id.parse::<u64>().map_err(|_| {
             MediaError::PixabayError(pixabay_sdk::PixabayError::ApiError(
-                "Invalid ID format".to_string()
+                "Invalid ID format".to_string(),
             ))
         })?;
 
@@ -250,9 +272,13 @@ impl MediaProvider for PixabayProvider {
                         size: v.size,
                         thumbnail: Some(v.thumbnail.clone()),
                     }),
-                ].into_iter().flatten().collect();
+                ]
+                .into_iter()
+                .flatten()
+                .collect();
 
-                let thumbnail = video_files.first()
+                let thumbnail = video_files
+                    .first()
                     .and_then(|f| f.thumbnail.clone())
                     .unwrap_or_default();
 
@@ -268,8 +294,14 @@ impl MediaProvider for PixabayProvider {
                     provider: "Pixabay".to_string(),
                     urls: MediaUrls {
                         thumbnail,
-                        medium: video_files.iter().find(|f| f.quality == "medium").map(|f| f.url.clone()),
-                        large: video_files.iter().find(|f| f.quality == "large").map(|f| f.url.clone()),
+                        medium: video_files
+                            .iter()
+                            .find(|f| f.quality == "medium")
+                            .map(|f| f.url.clone()),
+                        large: video_files
+                            .iter()
+                            .find(|f| f.quality == "large")
+                            .map(|f| f.url.clone()),
                         original: None,
                         video_files: Some(video_files),
                     },
@@ -295,22 +327,40 @@ mod tests {
     #[test]
     fn test_process_query() {
         // 测试空格分隔 - 空格会被保留并转换为 +
-        assert_eq!(PixabayProvider::process_query("nature landscape"), "nature+landscape");
+        assert_eq!(
+            PixabayProvider::process_query("nature landscape"),
+            "nature+landscape"
+        );
 
         // 测试逗号分隔
-        assert_eq!(PixabayProvider::process_query("nature,landscape,mountain"), "nature+landscape+mountain");
+        assert_eq!(
+            PixabayProvider::process_query("nature,landscape,mountain"),
+            "nature+landscape+mountain"
+        );
 
         // 测试分号分隔
-        assert_eq!(PixabayProvider::process_query("nature;landscape"), "nature+landscape");
+        assert_eq!(
+            PixabayProvider::process_query("nature;landscape"),
+            "nature+landscape"
+        );
 
         // 测试竖线分隔
-        assert_eq!(PixabayProvider::process_query("nature|landscape"), "nature+landscape");
+        assert_eq!(
+            PixabayProvider::process_query("nature|landscape"),
+            "nature+landscape"
+        );
 
         // 测试混合分隔符
-        assert_eq!(PixabayProvider::process_query("nature, landscape; mountain"), "nature+landscape+mountain");
+        assert_eq!(
+            PixabayProvider::process_query("nature, landscape; mountain"),
+            "nature+landscape+mountain"
+        );
 
         // 测试多余空格
-        assert_eq!(PixabayProvider::process_query("  nature  ,  landscape  "), "nature+landscape");
+        assert_eq!(
+            PixabayProvider::process_query("  nature  ,  landscape  "),
+            "nature+landscape"
+        );
 
         // 测试单个关键字
         assert_eq!(PixabayProvider::process_query("nature"), "nature");
@@ -319,6 +369,9 @@ mod tests {
         assert_eq!(PixabayProvider::process_query(""), "");
 
         // 测试带空格的短语
-        assert_eq!(PixabayProvider::process_query("yellow flowers"), "yellow+flowers");
+        assert_eq!(
+            PixabayProvider::process_query("yellow flowers"),
+            "yellow+flowers"
+        );
     }
 }

@@ -1,17 +1,17 @@
+use crate::create_provider::create_provider;
 use crate::error::{MediaError, Result};
+use crate::media_provider::MediaProvider;
 use crate::models::{
-    MediaItem, MediaType, ImageQuality, VideoQuality, SearchResult, AggregatedSearchResult,
-    DownloadProgress, DownloadState, BatchDownloadProgress, ProgressCallback,
+    AggregatedSearchResult, BatchDownloadProgress, DownloadProgress, DownloadState, ImageQuality,
+    MediaItem, MediaType, ProgressCallback, SearchResult, VideoQuality,
 };
 use futures::future::join_all;
+use log::error;
 use std::path::Path;
 use std::sync::Arc;
 use std::time::Instant;
 use tokio::fs::File;
 use tokio::io::AsyncWriteExt;
-use log::error;
-use crate::create_provider::create_provider;
-use crate::media_provider::MediaProvider;
 
 /// 媒体下载配置
 #[derive(Clone)]
@@ -59,9 +59,9 @@ impl std::fmt::Debug for DownloadConfig {
 /// 搜索参数
 #[derive(Debug, Clone)]
 pub struct SearchParams {
-    pub query: String,//查询关键字
-    pub limit: u32,//每页记录数
-    pub page: u32,//第几页
+    pub query: String, //查询关键字
+    pub limit: u32,    //每页记录数
+    pub page: u32,     //第几页
     pub media_type: MediaType,
 }
 
@@ -147,21 +147,29 @@ impl MediaDownloader {
             return Err(MediaError::NoProviders);
         }
 
-        let futures: Vec<_> = self.providers.iter().map(|provider| {
-            let provider = Arc::clone(provider);
-            let params = params.clone();
+        let futures: Vec<_> = self
+            .providers
+            .iter()
+            .map(|provider| {
+                let provider = Arc::clone(provider);
+                let params = params.clone();
 
-            async move {
-                match params.media_type {
-                    MediaType::Image => {
-                        provider.search_images(&params.query, params.limit, params.page).await
-                    }
-                    MediaType::Video => {
-                        provider.search_videos(&params.query, params.limit, params.page).await
+                async move {
+                    match params.media_type {
+                        MediaType::Image => {
+                            provider
+                                .search_images(&params.query, params.limit, params.page)
+                                .await
+                        }
+                        MediaType::Video => {
+                            provider
+                                .search_videos(&params.query, params.limit, params.page)
+                                .await
+                        }
                     }
                 }
-            }
-        }).collect();
+            })
+            .collect();
 
         let results = join_all(futures).await;
 
@@ -199,7 +207,8 @@ impl MediaDownloader {
         }
 
         Ok(AggregatedSearchResult {
-            provider: provider_results.first()
+            provider: provider_results
+                .first()
                 .map(|r| r.provider.clone())
                 .unwrap_or_else(|| "all".to_string()),
             total: total_sum,
@@ -218,18 +227,22 @@ impl MediaDownloader {
         provider_name: &str,
         params: SearchParams,
     ) -> Result<SearchResult> {
-        let provider = self.providers.iter()
+        let provider = self
+            .providers
+            .iter()
             .find(|p| p.name() == provider_name)
-            .ok_or_else(|| MediaError::DownloadError(
-                format!("未找到提供商 {}", provider_name)
-            ))?;
+            .ok_or_else(|| MediaError::DownloadError(format!("未找到提供商 {}", provider_name)))?;
 
         match params.media_type {
             MediaType::Image => {
-                provider.search_images(&params.query, params.limit, params.page).await
+                provider
+                    .search_images(&params.query, params.limit, params.page)
+                    .await
             }
             MediaType::Video => {
-                provider.search_videos(&params.query, params.limit, params.page).await
+                provider
+                    .search_videos(&params.query, params.limit, params.page)
+                    .await
             }
         }
     }
@@ -263,13 +276,12 @@ impl MediaDownloader {
         let response = self.http_client.get(&url).send().await?;
 
         if !response.status().is_success() {
-            progress.state = DownloadState::Failed(
-                format!("HTTP {}", response.status())
-            );
+            progress.state = DownloadState::Failed(format!("HTTP {}", response.status()));
             self.notify_progress(&progress);
-            return Err(MediaError::DownloadError(
-                format!("HTTP {}: 下载失败", response.status())
-            ));
+            return Err(MediaError::DownloadError(format!(
+                "HTTP {}: 下载失败",
+                response.status()
+            )));
         }
 
         // 从 Content-Length 头获取总大小
@@ -339,16 +351,19 @@ impl MediaDownloader {
     pub async fn download_items(&self, items: &[MediaItem]) -> Vec<Result<String>> {
         let semaphore = Arc::new(tokio::sync::Semaphore::new(self.config.max_concurrent));
 
-        let futures: Vec<_> = items.iter().map(|item| {
-            let semaphore = Arc::clone(&semaphore);
-            let item = item.clone();
-            let downloader = self.clone();
+        let futures: Vec<_> = items
+            .iter()
+            .map(|item| {
+                let semaphore = Arc::clone(&semaphore);
+                let item = item.clone();
+                let downloader = self.clone();
 
-            async move {
-                let _permit = semaphore.acquire().await.unwrap();
-                downloader.download_item(&item).await
-            }
-        }).collect();
+                async move {
+                    let _permit = semaphore.acquire().await.unwrap();
+                    downloader.download_item(&item).await
+                }
+            })
+            .collect();
 
         join_all(futures).await
     }
@@ -376,7 +391,11 @@ impl MediaDownloader {
             let mut batch = batch_progress_clone.lock().unwrap();
 
             // Update item progress
-            if let Some(pos) = batch.item_progress.iter().position(|p| p.item_id == progress.item_id) {
+            if let Some(pos) = batch
+                .item_progress
+                .iter()
+                .position(|p| p.item_id == progress.item_id)
+            {
                 batch.item_progress[pos] = progress.clone();
             } else {
                 batch.item_progress.push(progress.clone());
@@ -385,19 +404,22 @@ impl MediaDownloader {
             // Update counters
             match progress.state {
                 DownloadState::Downloading => {
-                    batch.downloading_items = batch.item_progress
+                    batch.downloading_items = batch
+                        .item_progress
                         .iter()
                         .filter(|p| matches!(p.state, DownloadState::Downloading))
                         .count();
                 }
                 DownloadState::Completed => {
-                    batch.completed_items = batch.item_progress
+                    batch.completed_items = batch
+                        .item_progress
                         .iter()
                         .filter(|p| matches!(p.state, DownloadState::Completed))
                         .count();
                 }
                 DownloadState::Failed(_) => {
-                    batch.failed_items = batch.item_progress
+                    batch.failed_items = batch
+                        .item_progress
                         .iter()
                         .filter(|p| matches!(p.state, DownloadState::Failed(_)))
                         .count();
@@ -435,7 +457,10 @@ impl MediaDownloader {
         }
 
         // 所有提供商都没有找到该媒体
-        Err(MediaError::DownloadError(format!("未找到 ID 为 {} 的媒体", id)))
+        Err(MediaError::DownloadError(format!(
+            "未找到 ID 为 {} 的媒体",
+            id
+        )))
     }
 
     /// 批量下载媒体项
@@ -445,23 +470,28 @@ impl MediaDownloader {
         batch_callback: Option<ProgressCallback>,
     ) -> Result<Vec<String>> {
         let items_vec: Vec<MediaItem> = items.iter().map(|&item| item.clone()).collect();
-        let results = self.download_items_with_batch_progress(&items_vec, move |progress| {
-            if let Some(callback) = &batch_callback {
-                let progress = DownloadProgress {
-                    item_id: "batch".to_string(),
-                    item_title: format!("批量下载 ({}/{})", progress.completed_items, progress.total_items),
-                    provider: "聚合".to_string(),
-                    state: DownloadState::Completed,
-                    downloaded_bytes: 0,
-                    total_bytes: None,
-                    speed_bps: 0,
-                    percentage: progress.overall_percentage,
-                    elapsed_secs: 0.0,
-                    eta_secs: None,
-                };
-                callback(progress);
-            }
-        }).await;
+        let results = self
+            .download_items_with_batch_progress(&items_vec, move |progress| {
+                if let Some(callback) = &batch_callback {
+                    let progress = DownloadProgress {
+                        item_id: "batch".to_string(),
+                        item_title: format!(
+                            "批量下载 ({}/{})",
+                            progress.completed_items, progress.total_items
+                        ),
+                        provider: "聚合".to_string(),
+                        state: DownloadState::Completed,
+                        downloaded_bytes: 0,
+                        total_bytes: None,
+                        speed_bps: 0,
+                        percentage: progress.overall_percentage,
+                        elapsed_secs: 0.0,
+                        eta_secs: None,
+                    };
+                    callback(progress);
+                }
+            })
+            .await;
 
         let successful_downloads: Vec<String> = results
             .into_iter()
@@ -475,31 +505,37 @@ impl MediaDownloader {
     fn get_image_url(&self, item: &MediaItem) -> Result<String> {
         match self.config.image_quality {
             ImageQuality::Thumbnail => Ok(item.urls.thumbnail.clone()),
-            ImageQuality::Medium => {
-                item.urls.medium.clone()
-                    .or_else(|| item.urls.large.clone())
-                    .or_else(|| Some(item.urls.thumbnail.clone()))
-                    .ok_or_else(|| MediaError::InvalidQuality("没有可用的中等质量".to_string()))
-            }
-            ImageQuality::Large => {
-                item.urls.large.clone()
-                    .or_else(|| item.urls.medium.clone())
-                    .or_else(|| Some(item.urls.thumbnail.clone()))
-                    .ok_or_else(|| MediaError::InvalidQuality("没有可用的大尺寸质量".to_string()))
-            }
-            ImageQuality::Original => {
-                item.urls.original.clone()
-                    .or_else(|| item.urls.large.clone())
-                    .or_else(|| item.urls.medium.clone())
-                    .or_else(|| Some(item.urls.thumbnail.clone()))
-                    .ok_or_else(|| MediaError::InvalidQuality("没有可用的原始质量".to_string()))
-            }
+            ImageQuality::Medium => item
+                .urls
+                .medium
+                .clone()
+                .or_else(|| item.urls.large.clone())
+                .or_else(|| Some(item.urls.thumbnail.clone()))
+                .ok_or_else(|| MediaError::InvalidQuality("没有可用的中等质量".to_string())),
+            ImageQuality::Large => item
+                .urls
+                .large
+                .clone()
+                .or_else(|| item.urls.medium.clone())
+                .or_else(|| Some(item.urls.thumbnail.clone()))
+                .ok_or_else(|| MediaError::InvalidQuality("没有可用的大尺寸质量".to_string())),
+            ImageQuality::Original => item
+                .urls
+                .original
+                .clone()
+                .or_else(|| item.urls.large.clone())
+                .or_else(|| item.urls.medium.clone())
+                .or_else(|| Some(item.urls.thumbnail.clone()))
+                .ok_or_else(|| MediaError::InvalidQuality("没有可用的原始质量".to_string())),
         }
     }
 
     /// 根据质量偏好获取视频 URL
     fn get_video_url(&self, item: &MediaItem) -> Result<String> {
-        let video_files = item.urls.video_files.as_ref()
+        let video_files = item
+            .urls
+            .video_files
+            .as_ref()
             .ok_or_else(|| MediaError::InvalidQuality("没有可用的视频文件".to_string()))?;
 
         let quality_str = self.config.video_quality.as_str();
@@ -511,7 +547,8 @@ impl MediaDownloader {
 
         // 尝试按分辨率查找
         let min_width = self.config.video_quality.min_width();
-        if let Some(file) = video_files.iter()
+        if let Some(file) = video_files
+            .iter()
             .filter(|f| f.width >= min_width)
             .min_by_key(|f| f.width)
         {
@@ -519,7 +556,8 @@ impl MediaDownloader {
         }
 
         // 回退到最大可用
-        video_files.iter()
+        video_files
+            .iter()
             .max_by_key(|f| f.width)
             .map(|f| f.url.clone())
             .ok_or_else(|| MediaError::InvalidQuality("未找到合适的视频质量".to_string()))
@@ -535,7 +573,8 @@ impl MediaDownloader {
         if self.config.use_original_names {
             format!("{}_{}.{}", item.provider.to_lowercase(), item.id, extension)
         } else {
-            let sanitized_title = item.title
+            let sanitized_title = item
+                .title
                 .chars()
                 .filter(|c| c.is_alphanumeric() || *c == '_' || *c == '-')
                 .collect::<String>();
@@ -546,11 +585,12 @@ impl MediaDownloader {
                 sanitized_title
             };
 
-            format!("{}_{}_{}.{}",
-                    item.provider.to_lowercase(),
-                    sanitized,
-                    item.id,
-                    extension
+            format!(
+                "{}_{}_{}.{}",
+                item.provider.to_lowercase(),
+                sanitized,
+                item.id,
+                extension
             )
         }
     }

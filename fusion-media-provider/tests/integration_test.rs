@@ -20,7 +20,9 @@ fn get_test_client() -> Option<Pixabay> {
 async fn test_simple_image_search() {
     let client = get_test_client().expect("PIXABAY_API_KEY not set");
 
-    let result = client.search_images("yellow flowers", Some(5), Some(1)).await;
+    let result = client
+        .search_images("yellow flowers", Some(5), Some(1))
+        .await;
     assert!(result.is_ok());
 
     let response = result.unwrap();
@@ -152,9 +154,7 @@ async fn test_query_length_validation() {
     // Create a query longer than 100 characters
     let long_query = "a".repeat(101);
 
-    let params = SearchImageParams::new()
-        .query(long_query)
-        .per_page(5);
+    let params = SearchImageParams::new().query(long_query).per_page(5);
 
     let result = client.search_images_advanced(params).await;
     assert!(result.is_err());
@@ -276,14 +276,11 @@ async fn test_media_downloader_search_images() {
     use std::sync::Arc;
 
     dotenv().ok();
-    let api_key = env::var("PIXABAY_API_KEY")
-        .expect("PIXABAY_API_KEY must be set in .env file");
+    let api_key = env::var("PIXABAY_API_KEY").expect("PIXABAY_API_KEY must be set in .env file");
 
-    let downloader = MediaDownloader::new()
-        .add_provider(Arc::new(PixabayProvider::new(api_key)));
+    let downloader = MediaDownloader::new().add_provider(Arc::new(PixabayProvider::new(api_key)));
 
-    let params = SearchParams::new("mountain", MediaType::Image)
-        .limit(5);
+    let params = SearchParams::new("mountain", MediaType::Image).limit(5);
 
     let result = downloader.search(params).await;
 
@@ -292,7 +289,11 @@ async fn test_media_downloader_search_images() {
 
     assert!(response.total > 0, "Should have results");
     assert!(response.items.len() > 0, "Should return items");
-    println!("Found {} images from {} provider(s)", response.total_hits, response.provider_results.len());
+    println!(
+        "Found {} images from {} provider(s)",
+        response.total_hits,
+        response.provider_results.len()
+    );
 
     for item in &response.items {
         println!("  - {} ({}): {}", item.id, item.provider, item.title);
@@ -308,14 +309,11 @@ async fn test_media_downloader_search_videos() {
     use std::sync::Arc;
 
     dotenv().ok();
-    let api_key = env::var("PIXABAY_API_KEY")
-        .expect("PIXABAY_API_KEY must be set in .env file");
+    let api_key = env::var("PIXABAY_API_KEY").expect("PIXABAY_API_KEY must be set in .env file");
 
-    let downloader = MediaDownloader::new()
-        .add_provider(Arc::new(PixabayProvider::new(api_key)));
+    let downloader = MediaDownloader::new().add_provider(Arc::new(PixabayProvider::new(api_key)));
 
-    let params = SearchParams::new("ocean", MediaType::Video)
-        .limit(3);
+    let params = SearchParams::new("ocean", MediaType::Video).limit(3);
 
     let result = downloader.search(params).await;
 
@@ -323,7 +321,11 @@ async fn test_media_downloader_search_videos() {
     let response = result.unwrap();
 
     assert!(response.total > 0, "Should have results");
-    println!("Found {} videos from {} provider(s)", response.total_hits, response.provider_results.len());
+    println!(
+        "Found {} videos from {} provider(s)",
+        response.total_hits,
+        response.provider_results.len()
+    );
 }
 
 #[tokio::test]
@@ -335,11 +337,9 @@ async fn test_media_downloader_pagination() {
     use std::sync::Arc;
 
     dotenv().ok();
-    let api_key = env::var("PIXABAY_API_KEY")
-        .expect("PIXABAY_API_KEY must be set in .env file");
+    let api_key = env::var("PIXABAY_API_KEY").expect("PIXABAY_API_KEY must be set in .env file");
 
-    let downloader = MediaDownloader::new()
-        .add_provider(Arc::new(PixabayProvider::new(api_key)));
+    let downloader = MediaDownloader::new().add_provider(Arc::new(PixabayProvider::new(api_key)));
 
     let params1 = SearchParams::new("forest", MediaType::Image)
         .limit(3)
@@ -360,10 +360,17 @@ async fn test_media_downloader_pagination() {
 
     // Different pages should have different items
     if let (Some(item1), Some(item2)) = (response1.items.first(), response2.items.first()) {
-        assert_ne!(item1.id, item2.id, "Different pages should return different items");
+        assert_ne!(
+            item1.id, item2.id,
+            "Different pages should return different items"
+        );
     }
 
-    println!("Page 1: {} items, Page 2: {} items", response1.items.len(), response2.items.len());
+    println!(
+        "Page 1: {} items, Page 2: {} items",
+        response1.items.len(),
+        response2.items.len()
+    );
 }
 
 #[tokio::test]
@@ -375,11 +382,10 @@ async fn test_media_downloader_multiple_providers() {
     use std::sync::Arc;
 
     dotenv().ok();
-    let pixabay_key = env::var("PIXABAY_API_KEY")
-        .expect("PIXABAY_API_KEY must be set");
+    let pixabay_key = env::var("PIXABAY_API_KEY").expect("PIXABAY_API_KEY must be set");
 
-    let downloader = MediaDownloader::new()
-        .add_provider(Arc::new(PixabayProvider::new(pixabay_key.clone())));
+    let downloader =
+        MediaDownloader::new().add_provider(Arc::new(PixabayProvider::new(pixabay_key.clone())));
 
     let params = SearchParams::new("city", MediaType::Image).limit(3);
 
@@ -387,8 +393,11 @@ async fn test_media_downloader_multiple_providers() {
     assert!(result.is_ok());
 
     let response = result.unwrap();
-    println!("Query: 'city', Found {} results from {} provider(s)",
-             response.total_hits, response.provider_results.len());
+    println!(
+        "Query: 'city', Found {} results from {} provider(s)",
+        response.total_hits,
+        response.provider_results.len()
+    );
 
     // All results should have provider info
     for item in &response.items {
@@ -402,8 +411,14 @@ async fn test_download_config_default() {
 
     let config = DownloadConfig::default();
 
-    assert_eq!(config.image_quality, poly_media_provider::ImageQuality::Large);
-    assert_eq!(config.video_quality, poly_media_provider::VideoQuality::Large);
+    assert_eq!(
+        config.image_quality,
+        poly_media_provider::ImageQuality::Large
+    );
+    assert_eq!(
+        config.video_quality,
+        poly_media_provider::VideoQuality::Large
+    );
     assert_eq!(config.output_dir, "./downloads");
     assert_eq!(config.max_concurrent, 5);
     assert!(config.progress_callback.is_none());
@@ -425,7 +440,7 @@ async fn test_search_params_builder() {
 
 #[tokio::test]
 async fn test_media_item_creation() {
-    use poly_media_provider::{MediaItem, MediaType, MediaUrls, MediaMetadata};
+    use poly_media_provider::{MediaItem, MediaMetadata, MediaType, MediaUrls};
 
     let item = MediaItem {
         id: "test-123".to_string(),
@@ -462,7 +477,7 @@ async fn test_media_item_creation() {
 
 #[tokio::test]
 async fn test_download_progress_new() {
-    use poly_media_provider::{DownloadProgress, MediaItem, MediaType, MediaUrls, MediaMetadata};
+    use poly_media_provider::{DownloadProgress, MediaItem, MediaMetadata, MediaType, MediaUrls};
 
     let item = MediaItem {
         id: "test-123".to_string(),

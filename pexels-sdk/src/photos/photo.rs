@@ -17,8 +17,10 @@ impl FetchPhoto {
 
     /// Creates a URI from the values provided by the [`FetchPhotoBuilder`].
     pub fn create_uri(&self) -> crate::BuilderResult {
-        let uri =
-            format!("{}/{}/{}/{}", PEXELS_API, PEXELS_VERSION, PEXELS_GET_PHOTO_PATH, self.id);
+        let uri = format!(
+            "{}/{}/{}/{}",
+            PEXELS_API, PEXELS_VERSION, PEXELS_GET_PHOTO_PATH, self.id
+        );
 
         let url = Url::parse(uri.as_str())?;
 
@@ -63,12 +65,14 @@ mod tests {
     use super::*;
     use dotenvy::dotenv;
     use std::env;
-    
 
     #[test]
     fn test_id() {
         let uri = FetchPhotoBuilder::new().id(123).build();
-        assert_eq!("https://api.pexels.com/v1/photos/123", uri.create_uri().unwrap());
+        assert_eq!(
+            "https://api.pexels.com/v1/photos/123",
+            uri.create_uri().unwrap()
+        );
     }
 
     #[tokio::test]

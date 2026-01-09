@@ -1,6 +1,6 @@
 use crate::{
-    MediaResponse, MediaSort, MediaType, Pexels, PexelsError, PEXELS_API,
-    PEXELS_COLLECTIONS_PATH, PEXELS_VERSION,
+    MediaResponse, MediaSort, MediaType, Pexels, PexelsError, PEXELS_API, PEXELS_COLLECTIONS_PATH,
+    PEXELS_VERSION,
 };
 use url::Url;
 
@@ -23,8 +23,10 @@ impl Media {
 
     /// Constructs the URI for the media request based on the builder's parameters.
     pub fn create_uri(&self) -> crate::BuilderResult {
-        let uri =
-            format!("{}/{}/{}/{}", PEXELS_API, PEXELS_VERSION, PEXELS_COLLECTIONS_PATH, self.id);
+        let uri = format!(
+            "{}/{}/{}/{}",
+            PEXELS_API, PEXELS_VERSION, PEXELS_COLLECTIONS_PATH, self.id
+        );
 
         let mut url = Url::parse(uri.as_str())?;
 
@@ -42,11 +44,13 @@ impl Media {
         }
 
         if let Some(page) = &self.page {
-            url.query_pairs_mut().append_pair("page", page.to_string().as_str());
+            url.query_pairs_mut()
+                .append_pair("page", page.to_string().as_str());
         }
 
         if let Some(per_page) = &self.per_page {
-            url.query_pairs_mut().append_pair("per_page", per_page.to_string().as_str());
+            url.query_pairs_mut()
+                .append_pair("per_page", per_page.to_string().as_str());
         }
 
         Ok(url.into())
@@ -74,7 +78,13 @@ pub struct MediaBuilder {
 impl MediaBuilder {
     /// Creates a new `MediaBuilder`.
     pub fn new() -> Self {
-        Self { id: "".to_string(), r#type: None, sort: None, page: None, per_page: None }
+        Self {
+            id: "".to_string(),
+            r#type: None,
+            sort: None,
+            page: None,
+            per_page: None,
+        }
     }
 
     /// Sets the ID of the media item to be fetched.
@@ -126,6 +136,9 @@ mod tests {
     #[test]
     fn test_id() {
         let uri = MediaBuilder::new().id("123".to_string()).build();
-        assert_eq!("https://api.pexels.com/v1/collections/123", uri.create_uri().unwrap());
+        assert_eq!(
+            "https://api.pexels.com/v1/collections/123",
+            uri.create_uri().unwrap()
+        );
     }
 }

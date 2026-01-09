@@ -1,6 +1,6 @@
-use std::str::FromStr;
-use std::fmt;
 use serde::{Deserialize, Serialize};
+use std::fmt;
+use std::str::FromStr;
 use std::sync::Arc;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -80,7 +80,6 @@ pub struct MediaItem {
     pub urls: MediaUrls,
     pub metadata: MediaMetadata,
 }
-
 
 /// 进度回调类型
 pub type ProgressCallback = Arc<dyn Fn(DownloadProgress) + Send + Sync>;
@@ -224,8 +223,10 @@ impl BatchDownloadProgress {
 
     pub fn calculate_overall_percentage(&mut self) {
         if self.total_items > 0 {
-            let completed_percentage = (self.completed_items as f64 / self.total_items as f64) * 100.0;
-            let in_progress_percentage = self.item_progress
+            let completed_percentage =
+                (self.completed_items as f64 / self.total_items as f64) * 100.0;
+            let in_progress_percentage = self
+                .item_progress
                 .iter()
                 .filter(|p| matches!(p.state, DownloadState::Downloading))
                 .map(|p| p.percentage / self.total_items as f64)
@@ -262,7 +263,7 @@ impl SearchResult {
         if per_page == 0 {
             return 0;
         }
-        (total + per_page - 1) / per_page  // 向上取整
+        (total + per_page - 1) / per_page // 向上取整
     }
 }
 
@@ -287,8 +288,6 @@ pub struct AggregatedSearchResult {
     /// 各提供商的详细结果
     pub provider_results: Vec<SearchResult>,
 }
-
-
 
 /// 图片质量偏好
 #[derive(Debug, Clone, Deserialize, Serialize, Copy, PartialEq, Eq)]
@@ -315,10 +314,10 @@ impl ImageQuality {
 #[derive(Debug, Clone, Deserialize, Serialize, Copy, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub enum VideoQuality {
-    Tiny,    // 360p
-    Small,   // 540p
-    Medium,  // 720p
-    Large,   // 1080p
+    Tiny,   // 360p
+    Small,  // 540p
+    Medium, // 720p
+    Large,  // 1080p
     Original,
 }
 

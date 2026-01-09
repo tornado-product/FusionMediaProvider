@@ -16,8 +16,10 @@ impl FetchVideo {
 
     /// Creates a URI from the provided values.
     pub fn create_uri(&self) -> crate::BuilderResult {
-        let uri =
-            format!("{}/{}/{}/{}", PEXELS_API, PEXELS_VIDEO_PATH, PEXELS_GET_VIDEO_PATH, self.id);
+        let uri = format!(
+            "{}/{}/{}/{}",
+            PEXELS_API, PEXELS_VIDEO_PATH, PEXELS_GET_VIDEO_PATH, self.id
+        );
 
         let url = Url::parse(uri.as_str())?;
 
@@ -64,6 +66,9 @@ mod tests {
     #[test]
     fn test_id() {
         let uri = FetchVideoBuilder::new().id(123).build();
-        assert_eq!("https://api.pexels.com/videos/videos/123", uri.create_uri().unwrap());
+        assert_eq!(
+            "https://api.pexels.com/videos/videos/123",
+            uri.create_uri().unwrap()
+        );
     }
 }

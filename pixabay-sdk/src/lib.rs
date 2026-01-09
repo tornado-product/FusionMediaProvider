@@ -1,12 +1,12 @@
-mod models;
 mod client;
 mod error;
+mod models;
 
-pub use models::*;
 pub use client::Pixabay;
 pub use client::SearchImageParams;
 pub use client::SearchVideoParams;
 pub use error::{PixabayError, Result};
+pub use models::*;
 
 #[cfg(test)]
 mod tests {

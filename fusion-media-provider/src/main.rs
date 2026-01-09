@@ -3,8 +3,11 @@ Poly Media Downloader CLI - 多媒体下载命令行工具。
 支持从 Pexels 和 Pixabay 搜索和下载图片及视频。
 */
 use clap::{Parser, Subcommand};
-use poly_media_provider::{DownloadConfig, DownloadProgress, MediaDownloader, MediaItem, MediaType, ProgressCallback, SearchParams};
 use dotenvy::dotenv;
+use poly_media_provider::{
+    DownloadConfig, DownloadProgress, MediaDownloader, MediaItem, MediaType, ProgressCallback,
+    SearchParams,
+};
 use std::env;
 use std::sync::Arc;
 
@@ -233,17 +236,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             println!("总共找到 {} 个结果", result.total);
 
             // 限制下载数量
-            let items_to_download: Vec<&MediaItem> = result.items.iter().take(limit as usize).collect();
+            let items_to_download: Vec<&MediaItem> =
+                result.items.iter().take(limit as usize).collect();
             println!("将下载 {} 个项目", items_to_download.len());
 
             // 创建进度回调
-            let progress_callback: Option<ProgressCallback> = Some(Arc::new(|progress: DownloadProgress| {
-                println!(
-                    "下载进度: {} - {:.1}%",
-                    progress.item_title,
-                    progress.percentage
-                );
-            }));
+            let progress_callback: Option<ProgressCallback> =
+                Some(Arc::new(|progress: DownloadProgress| {
+                    println!(
+                        "下载进度: {} - {:.1}%",
+                        progress.item_title, progress.percentage
+                    );
+                }));
 
             // 下载媒体
             let downloaded_files = downloader
