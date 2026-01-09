@@ -76,6 +76,7 @@ mod tests {
     }
 
     #[tokio::test]
+    #[ignore]
     async fn test_fetch_photo() {
         dotenv().ok();
         let api_key = env::var("PEXELS_API_KEY").expect("PEXELS_API_KEY not set");
