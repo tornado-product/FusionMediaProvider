@@ -8,6 +8,8 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
+  CARGO_NET_RETRY: 10
+  RUST_BACKTRACE: 1
 
 jobs:
   test:
@@ -59,9 +61,13 @@ jobs:
         run: cargo clippy --all-targets --all-features -- -D warnings
 
       - name: Build
+        timeout-minutes: 30
+        env:
+          CARGO_BUILD_JOBS: 2
         run: cargo build --verbose --all
 
       - name: Run tests
+        timeout-minutes: 30
         run: cargo test --verbose --all
 
   build-release:
@@ -90,6 +96,9 @@ jobs:
             ${{ runner.os }}-cargo-
 
       - name: Build release binaries
+        timeout-minutes: 45
+        env:
+          CARGO_BUILD_JOBS: 2
         run: |
           cargo build --release --all
 
