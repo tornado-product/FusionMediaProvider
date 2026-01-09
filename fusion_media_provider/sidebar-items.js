@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["DownloadState","ImageQuality","MediaError","MediaType","VideoQuality"],"struct":["AggregatedSearchResult","BatchDownloadProgress","DownloadConfig","DownloadProgress","MediaDownloader","MediaItem","MediaMetadata","MediaUrls","PexelsProvider","PixabayProvider","SearchParams","SearchResult","VideoFile"],"type":["ProgressCallback","Result"]};

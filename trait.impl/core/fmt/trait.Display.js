@@ -1,0 +1,9 @@
+(function() {
+    var implementors = Object.fromEntries([["fusion_media_provider",[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.92.0/core/fmt/trait.Display.html\" title=\"trait core::fmt::Display\">Display</a> for <a class=\"enum\" href=\"fusion_media_provider/enum.MediaError.html\" title=\"enum fusion_media_provider::MediaError\">MediaError</a>"],["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.92.0/core/fmt/trait.Display.html\" title=\"trait core::fmt::Display\">Display</a> for <a class=\"enum\" href=\"fusion_media_provider/enum.MediaType.html\" title=\"enum fusion_media_provider::MediaType\">MediaType</a>"]]],["pexels_sdk",[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.92.0/core/fmt/trait.Display.html\" title=\"trait core::fmt::Display\">Display</a> for <a class=\"enum\" href=\"pexels_sdk/enum.Orientation.html\" title=\"enum pexels_sdk::Orientation\">Orientation</a>"],["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.92.0/core/fmt/trait.Display.html\" title=\"trait core::fmt::Display\">Display</a> for <a class=\"enum\" href=\"pexels_sdk/enum.PexelsError.html\" title=\"enum pexels_sdk::PexelsError\">PexelsError</a>"],["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.92.0/core/fmt/trait.Display.html\" title=\"trait core::fmt::Display\">Display</a> for <a class=\"enum\" href=\"pexels_sdk/enum.Size.html\" title=\"enum pexels_sdk::Size\">Size</a>"]]],["pixabay_sdk",[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.92.0/core/fmt/trait.Display.html\" title=\"trait core::fmt::Display\">Display</a> for <a class=\"enum\" href=\"pixabay_sdk/enum.PixabayError.html\" title=\"enum pixabay_sdk::PixabayError\">PixabayError</a>"]]]]);
+    if (window.register_implementors) {
+        window.register_implementors(implementors);
+    } else {
+        window.pending_implementors = implementors;
+    }
+})()
+//{"start":57,"fragment_lengths":[590,788,287]}
