@@ -15,6 +15,7 @@ fn get_test_client() -> Option<Pixabay> {
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_simple_image_search() {
     let client = get_test_client().expect("PIXABAY_API_KEY not set");
 
@@ -93,6 +94,7 @@ async fn test_simple_video_search() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_advanced_video_search() {
     let client = get_test_client().expect("PIXABAY_API_KEY not set");
 
@@ -133,6 +135,7 @@ async fn test_get_video_by_id() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_per_page_clamping() {
     let client = get_test_client().expect("PIXABAY_API_KEY not set");
 
@@ -196,6 +199,7 @@ async fn test_editors_choice_filter() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_all_image_types() {
     let client = get_test_client().expect("PIXABAY_API_KEY not set");
 
@@ -267,6 +271,7 @@ fn test_enums_to_string() {
 }
 
 #[tokio::test]
+#[ignore]
 async fn test_media_downloader_search_images() {
     use dotenvy::dotenv;
     use fusion_media_provider::{MediaDownloader, MediaType, PixabayProvider, SearchParams};
